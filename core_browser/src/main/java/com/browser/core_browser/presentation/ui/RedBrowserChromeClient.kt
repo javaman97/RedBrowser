@@ -10,10 +10,10 @@ import android.webkit.WebView
 class RedBrowserChromeClient : WebChromeClient() {
 
     override fun onProgressChanged(view: WebView?, newProgress: Int) {
-        // Update the progress bar or other UI components
+
     }
 
     override fun onReceivedTitle(view: WebView?, title: String?) {
-        // Update the title in the toolbar or action bar
+
     }
 }

@@ -7,18 +7,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.browser.core_browser.presentation.viewmodels.RedBrowserViewModel
+import com.browser.red.presentation.ui.components.Bottombar
+import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.RedBrowserTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +25,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RedBrowserTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    bottomBar = { Bottombar() }
+                ) { innerPadding ->
                     val modifier = Modifier
                         .padding(innerPadding)
                     RedBrowserScreen(
@@ -44,11 +44,13 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun RedBrowserScreen(
     modifier: Modifier,
-    viewModel: RedBrowserViewModel = hiltViewModel()
+    viewModel: MainActivityViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val tab = viewModel.openNewTab(WebView(context),"https://www.youtube.com")
+    val tab = viewModel.openNewTab(WebView(context),"https://www.redbrowserapp.com")
     viewModel.configureWebView(tab)
+    viewModel.setWebViewClient(tab)
+    viewModel.setWebChromeClient(tab)
     viewModel.loadUrl(tab)
     AndroidView(factory = {
         viewModel.getCurrentTab()?.webView!!

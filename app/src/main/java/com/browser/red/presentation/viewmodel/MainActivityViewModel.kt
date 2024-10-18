@@ -1,4 +1,4 @@
-package com.browser.core_browser.presentation.viewmodels
+package com.browser.red.presentation.viewmodel
 
 import android.webkit.WebView
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,9 @@ import com.browser.core_browser.domain.usecases.ConfigureWebViewUseCase
 import com.browser.core_browser.domain.usecases.GetCurrentTabUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
+import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCase
+import com.browser.core_browser.domain.usecases.SetWebViewClientUseCase
+import com.browser.core_browser.presentation.ui.RedBrowserChromeClient
 import com.browser.core_browser.presentation.ui.RedBrowserWebViewClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,12 +26,14 @@ import javax.inject.Inject
  * @param getCurrentTabUseCase Use case for retrieving the currently active tab.
  */
 @HiltViewModel
-class RedBrowserViewModel @Inject constructor(
+class MainActivityViewModel @Inject constructor(
     val openNewTabUseCase: OpenNewTabUseCase,
     val loadUrlUseCase: LoadUrlUseCase,
     val configureWebViewUseCase: ConfigureWebViewUseCase,
-    val getCurrentTabUseCase: GetCurrentTabUseCase
-) : ViewModel() {
+    val getCurrentTabUseCase: GetCurrentTabUseCase,
+    val setWebViewClientUseCase: SetWebViewClientUseCase,
+    val setWebChromeClientUseCase: SetWebChromeClientUseCase
+) : ViewModel(){
 
     /**
      * Opens a new tab with the specified [webView] and [url].
@@ -67,4 +72,15 @@ class RedBrowserViewModel @Inject constructor(
     fun getCurrentTab(): RedBrowserTab? {
         return getCurrentTabUseCase()
     }
+
+    fun setWebViewClient(tab: RedBrowserTab){
+        setWebViewClientUseCase(tab,RedBrowserWebViewClient())
+    }
+
+    fun setWebChromeClient(tab:RedBrowserTab){
+        setWebChromeClientUseCase(tab, RedBrowserChromeClient())
+    }
+
+
+
 }

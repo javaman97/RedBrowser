@@ -1,6 +1,7 @@
 package com.browser.core_browser.domain.manager
 
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
 import java.util.UUID
 
@@ -42,13 +43,18 @@ class DefaultTabManager : TabManager {
     /**
      * Switches to the tab at the specified [index].
      *
-     * @param index The index of the tab to switch to.
+     * @param index The index of the tab to switch to. If the index is out of bounds,
+     *              no action is taken, and the current tab remains unchanged.
+     * @return The currently active [RedBrowserTab] after attempting to switch, or null
+     *         if no tabs are open or the index is out of bounds.
      */
-    override fun switchToTab(index: Int) {
+    override fun switchToTab(index: Int): RedBrowserTab? {
         if (index in 0 until tabs.size) {
             currentTabIndex = index
         }
+        return getCurrentTab()
     }
+
 
     /**
      * Returns the currently active tab, or null if no tabs are open.
@@ -84,4 +90,5 @@ class DefaultTabManager : TabManager {
     override fun updateCurrentTabUrl(url: String) {
         tabs.getOrNull(currentTabIndex)?.url = url
     }
+
 }

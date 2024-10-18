@@ -1,7 +1,9 @@
 package com.browser.core_browser.domain.repository
 
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
 
 
@@ -51,4 +53,9 @@ interface RedBrowserRepository {
      * @param tab The [RedBrowserTab] that contains the [WebView] whose data will be cleared.
      */
     fun clearWebViewData(tab: RedBrowserTab)
+
+
+    fun setWebViewClient(tab: RedBrowserTab,client:WebViewClient)
+
+    fun setWebChromeClient(tab:RedBrowserTab,client:WebChromeClient)
 }

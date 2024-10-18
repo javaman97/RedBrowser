@@ -1,6 +1,8 @@
 package com.browser.core_browser.data.repository
 
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
 import com.browser.core_browser.domain.repository.RedBrowserRepository
 
@@ -63,5 +65,13 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
             clearHistory()
             clearFormData()
         }
+    }
+
+    override fun setWebViewClient(tab: RedBrowserTab, client: WebViewClient) {
+        tab.webView.webViewClient = client
+    }
+
+    override fun setWebChromeClient(tab: RedBrowserTab, client: WebChromeClient) {
+        tab.webView.webChromeClient = client
     }
 }

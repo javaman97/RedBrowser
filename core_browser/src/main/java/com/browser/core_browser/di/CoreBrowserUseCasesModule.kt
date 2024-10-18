@@ -10,6 +10,10 @@ import com.browser.core_browser.domain.usecases.LoadUrlUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCaseImpl
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCaseImpl
+import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCase
+import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCaseImpl
+import com.browser.core_browser.domain.usecases.SetWebViewClientUseCase
+import com.browser.core_browser.domain.usecases.SetWebViewClientUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,13 +39,25 @@ object CoreBrowserUseCasesModule {
 
     @Singleton
     @Provides
-    fun providesConfigureWebViewUseCase(repository: RedBrowserRepository):ConfigureWebViewUseCase{
+    fun providesConfigureWebViewUseCase(repository: RedBrowserRepository): ConfigureWebViewUseCase {
         return ConfigureWebViewUseCaseImpl(repository)
     }
 
     @Singleton
     @Provides
-    fun providesGetCurrentTabUseCase(tabManager: TabManager):GetCurrentTabUseCase{
+    fun providesGetCurrentTabUseCase(tabManager: TabManager): GetCurrentTabUseCase {
         return GetCurrentTabUseCaseImpl(tabManager)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSetWebViewClientUseCase(repository: RedBrowserRepository):SetWebViewClientUseCase{
+        return SetWebViewClientUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSetWebChromeClientUseCase(repository: RedBrowserRepository):SetWebChromeClientUseCase{
+        return SetWebChromeClientUseCaseImpl(repository)
     }
 }

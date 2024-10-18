@@ -10,7 +10,8 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
  *
  * @param repository The [RedBrowserRepository] used to configure the WebView in the tab.
  */
-class ConfigureWebViewUseCaseImpl(private val repository: RedBrowserRepository) : ConfigureWebViewUseCase {
+class ConfigureWebViewUseCaseImpl(private val repository: RedBrowserRepository) :
+    ConfigureWebViewUseCase {
 
     /**
      * Configures the WebView associated with the specified [RedBrowserTab].
