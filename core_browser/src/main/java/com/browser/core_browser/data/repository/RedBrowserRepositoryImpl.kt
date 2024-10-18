@@ -11,6 +11,9 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
  *
  * This class provides functionality to configure web views, load URLs,
  * and manage web view data for instances of [RedBrowserTab].
+ *
+ * It enables JavaScript, manages caching behavior, and provides methods to
+ * clear data, set clients, and retrieve web view settings.
  */
 class RedBrowserRepositoryImpl : RedBrowserRepository {
 
@@ -30,7 +33,7 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
             clearHistory()
             clearCache(true)
         }
-        return tab  // Removed redundant 'return' keyword
+        return tab
     }
 
     /**
@@ -67,11 +70,31 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
         }
     }
 
+    /**
+     * Sets a custom [WebViewClient] for the specified [RedBrowserTab]'s [WebView].
+     *
+     * This method assigns the provided client to the web view and updates
+     * the corresponding property in the [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] for which the [WebViewClient] will be set.
+     * @param client The [WebViewClient] to be associated with the specified tab.
+     */
     override fun setWebViewClient(tab: RedBrowserTab, client: WebViewClient) {
         tab.webView.webViewClient = client
+        tab.webViewClient = client
     }
 
+    /**
+     * Sets a custom [WebChromeClient] for the specified [RedBrowserTab]'s [WebView].
+     *
+     * This method assigns the provided client to the web view and updates
+     * the corresponding property in the [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] for which the [WebChromeClient] will be set.
+     * @param client The [WebChromeClient] to be associated with the specified tab.
+     */
     override fun setWebChromeClient(tab: RedBrowserTab, client: WebChromeClient) {
         tab.webView.webChromeClient = client
+        tab.webChromeClient = client
     }
 }

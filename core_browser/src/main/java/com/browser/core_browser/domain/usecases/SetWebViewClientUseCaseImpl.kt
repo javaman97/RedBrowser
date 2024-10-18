@@ -13,7 +13,7 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
  *
  * @param repository The [RedBrowserRepository] instance used to set the [WebViewClient].
  */
-class SetWebViewClientUseCaseImpl(
+internal class SetWebViewClientUseCaseImpl(
     private val repository: RedBrowserRepository
 ) : SetWebViewClientUseCase {
 

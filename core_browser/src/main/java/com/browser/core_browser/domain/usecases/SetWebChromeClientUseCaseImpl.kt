@@ -13,7 +13,7 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
  *
  * @param repository The [RedBrowserRepository] instance used to set the [WebChromeClient].
  */
-class SetWebChromeClientUseCaseImpl(
+internal class SetWebChromeClientUseCaseImpl(
     private val repository: RedBrowserRepository
 ) : SetWebChromeClientUseCase {
 

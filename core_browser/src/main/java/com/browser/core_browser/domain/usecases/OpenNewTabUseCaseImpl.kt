@@ -11,7 +11,7 @@ import com.browser.core_browser.domain.model.RedBrowserTab
  *
  * @param tabManager The [TabManager] used to handle tab operations.
  */
-class OpenNewTabUseCaseImpl(private val tabManager: TabManager) : OpenNewTabUseCase {
+internal class OpenNewTabUseCaseImpl(private val tabManager: TabManager) : OpenNewTabUseCase {
 
     /**
      * Opens a new tab using the specified [WebView] and URL.

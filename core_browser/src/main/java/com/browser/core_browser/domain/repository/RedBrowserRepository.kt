@@ -6,19 +6,19 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
 
-
 /**
  * Repository interface for managing browser tabs and their associated [WebView] settings.
  *
  * This repository provides methods for configuring web views, loading URLs,
- * retrieving web view settings, and clearing web view data.
+ * retrieving web view settings, and clearing web view data. It also allows
+ * setting custom [WebViewClient] and [WebChromeClient] for handling web view events.
  */
 interface RedBrowserRepository {
 
     /**
      * Configures the given [RedBrowserTab]'s [WebView] settings.
      *
-     * The method enables JavaScript and disables caching by setting the cache mode to
+     * This method enables JavaScript and disables caching by setting the cache mode to
      * [WebSettings.LOAD_NO_CACHE]. It also clears the web view's history and cache.
      *
      * @param tab The [RedBrowserTab] that contains the [WebView] to be configured.
@@ -54,8 +54,23 @@ interface RedBrowserRepository {
      */
     fun clearWebViewData(tab: RedBrowserTab)
 
+    /**
+     * Sets a custom [WebViewClient] for the given [RedBrowserTab]'s [WebView].
+     *
+     * The [WebViewClient] is responsible for handling various events during the loading of web content.
+     *
+     * @param tab The [RedBrowserTab] that contains the [WebView] for which the client will be set.
+     * @param client The [WebViewClient] to be associated with the specified tab.
+     */
+    fun setWebViewClient(tab: RedBrowserTab, client: WebViewClient)
 
-    fun setWebViewClient(tab: RedBrowserTab,client:WebViewClient)
-
-    fun setWebChromeClient(tab:RedBrowserTab,client:WebChromeClient)
+    /**
+     * Sets a custom [WebChromeClient] for the given [RedBrowserTab]'s [WebView].
+     *
+     * The [WebChromeClient] handles UI-related changes such as progress updates and title changes.
+     *
+     * @param tab The [RedBrowserTab] that contains the [WebView] for which the client will be set.
+     * @param client The [WebChromeClient] to be associated with the specified tab.
+     */
+    fun setWebChromeClient(tab: RedBrowserTab, client: WebChromeClient)
 }

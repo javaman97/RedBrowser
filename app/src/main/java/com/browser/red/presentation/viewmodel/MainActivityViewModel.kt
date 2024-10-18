@@ -3,9 +3,11 @@ package com.browser.red.presentation.viewmodel
 import android.webkit.WebView
 import androidx.lifecycle.ViewModel
 import com.browser.core_browser.domain.model.RedBrowserTab
+import com.browser.core_browser.domain.model.WebViewClientData
 import com.browser.core_browser.domain.usecases.ConfigureWebViewUseCase
 import com.browser.core_browser.domain.usecases.GetCurrentTabUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCase
+import com.browser.core_browser.domain.usecases.ObserveWebViewClientDataUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
 import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCase
 import com.browser.core_browser.domain.usecases.SetWebViewClientUseCase
@@ -13,6 +15,7 @@ import com.browser.core_browser.domain.usecases.SwitchToTabUseCase
 import com.browser.core_browser.presentation.ui.RedBrowserChromeClient
 import com.browser.core_browser.presentation.ui.RedBrowserWebViewClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,6 +33,7 @@ import javax.inject.Inject
  * @param setWebViewClientUseCase Use case for setting the WebViewClient for a tab.
  * @param setWebChromeClientUseCase Use case for setting the WebChromeClient for a tab.
  * @param switchToTabUseCase Use case for switching between browser tabs.
+ * @param observeWebViewClientDataUseCase Use case for observing required data in WebViewClient
  */
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
@@ -39,7 +43,8 @@ class MainActivityViewModel @Inject constructor(
     private val getCurrentTabUseCase: GetCurrentTabUseCase,
     private val setWebViewClientUseCase: SetWebViewClientUseCase,
     private val setWebChromeClientUseCase: SetWebChromeClientUseCase,
-    private val switchToTabUseCase: SwitchToTabUseCase
+    private val switchToTabUseCase: SwitchToTabUseCase,
+    private val observeWebViewClientDataUseCase: ObserveWebViewClientDataUseCase
 ) : ViewModel() {
 
     /**
@@ -124,4 +129,25 @@ class MainActivityViewModel @Inject constructor(
     fun setWebChromeClient(tab: RedBrowserTab) {
         setWebChromeClientUseCase(tab, RedBrowserChromeClient())
     }
+
+    /**
+     * Observes the [WebViewClientData] for the currently active tab.
+     *
+     * This method retrieves the current tab using the [getCurrentTabUseCase] and,
+     * if a tab is available, it invokes the [observeWebViewClientDataUseCase]
+     * to return the associated [StateFlow] of [WebViewClientData].
+     * If there is no active tab, it returns null.
+     *
+     * @return A [StateFlow] of [WebViewClientData] associated with the current tab,
+     * or null if there is no active tab.
+     */
+    fun observeWebViewClientData(): StateFlow<WebViewClientData>? {
+        val currentTab = getCurrentTabUseCase()
+        return if (currentTab != null) {
+            observeWebViewClientDataUseCase(currentTab)
+        } else {
+            null
+        }
+    }
+
 }

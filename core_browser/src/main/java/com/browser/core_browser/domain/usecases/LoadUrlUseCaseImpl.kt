@@ -10,7 +10,7 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
  *
  * @param repository The [RedBrowserRepository] used to load the URL in the tab.
  */
-class LoadUrlUseCaseImpl(private val repository: RedBrowserRepository) : LoadUrlUseCase {
+internal class LoadUrlUseCaseImpl(private val repository: RedBrowserRepository) : LoadUrlUseCase {
 
     /**
      * Loads the URL associated with the specified [RedBrowserTab].

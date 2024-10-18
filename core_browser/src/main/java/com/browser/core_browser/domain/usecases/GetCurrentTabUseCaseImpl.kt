@@ -10,7 +10,7 @@ import com.browser.core_browser.domain.model.RedBrowserTab
  *
  * @param tabManager The [TabManager] instance used to access the tab data.
  */
-class GetCurrentTabUseCaseImpl(private val tabManager: TabManager) : GetCurrentTabUseCase {
+internal class GetCurrentTabUseCaseImpl(private val tabManager: TabManager) : GetCurrentTabUseCase {
 
     /**
      * Invokes the use case to get the currently active [RedBrowserTab].

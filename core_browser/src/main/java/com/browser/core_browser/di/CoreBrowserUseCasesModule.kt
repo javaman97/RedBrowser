@@ -8,12 +8,16 @@ import com.browser.core_browser.domain.usecases.GetCurrentTabUseCase
 import com.browser.core_browser.domain.usecases.GetCurrentTabUseCaseImpl
 import com.browser.core_browser.domain.usecases.LoadUrlUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCaseImpl
+import com.browser.core_browser.domain.usecases.ObserveWebViewClientDataUseCase
+import com.browser.core_browser.domain.usecases.ObserveWebViewClientDataUseCaseImpl
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCaseImpl
 import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCase
 import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCaseImpl
 import com.browser.core_browser.domain.usecases.SetWebViewClientUseCase
 import com.browser.core_browser.domain.usecases.SetWebViewClientUseCaseImpl
+import com.browser.core_browser.domain.usecases.SwitchToTabUseCase
+import com.browser.core_browser.domain.usecases.SwitchToTabUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,5 +63,17 @@ object CoreBrowserUseCasesModule {
     @Provides
     fun providesSetWebChromeClientUseCase(repository: RedBrowserRepository):SetWebChromeClientUseCase{
         return SetWebChromeClientUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSwitchToTabUseCase(tabManager: TabManager):SwitchToTabUseCase{
+        return SwitchToTabUseCaseImpl(tabManager)
+    }
+
+    @Singleton
+    @Provides
+    fun providesObserveWebViewClientDataUseCase():ObserveWebViewClientDataUseCase{
+        return ObserveWebViewClientDataUseCaseImpl()
     }
 }
