@@ -15,6 +15,7 @@ An open-source WebView-based browser designed for a secure and efficient browsin
 ## Contributing
 
 This is just the initial commit. We welcome contributions to improve and expand the project.
+We are keenly waiting for your PRs
 
 ## Development Guidelines
 
