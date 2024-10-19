@@ -12,15 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = Red200,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    background = Gray800,
+    primaryContainer = Gray800
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Red400,
+    secondary = Gray400,
+    tertiary = Pink40,
+    background = Red50,
+    primaryContainer = Red100
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -41,10 +45,10 @@ fun RedBrowserTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+       /* dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+        }*/
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
