@@ -34,11 +34,15 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.browser.red.R
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
+import timber.log.Timber
 
 
 @Composable
-fun BottomBarMain(mainActivityViewModel: MainActivityViewModel) {
-    val iconSizeDp = DpSize(28.dp,28.dp)
+fun BottomBarMain(
+    mainActivityViewModel: MainActivityViewModel,
+    onTabsClicked: () -> Unit = {}
+) {
+    val iconSizeDp = DpSize(28.dp, 28.dp)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,53 +50,29 @@ fun BottomBarMain(mainActivityViewModel: MainActivityViewModel) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            modifier = Modifier
-                .size(iconSizeDp),
+        IconButton(
             painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
-            contentDescription = stringResource(id = R.string.go_back),
-            tint = MaterialTheme.colorScheme.primary
+            contentDescription = stringResource(id = R.string.go_back)
         )
-        Icon(
-            modifier = Modifier
-                .size(iconSizeDp),
+        IconButton(
             painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-            contentDescription = stringResource(id = R.string.go_forward),
-            tint = MaterialTheme.colorScheme.primary
+            contentDescription = stringResource(id = R.string.go_forward)
         )
-        Icon(
-            modifier = Modifier
-                .size(iconSizeDp),
+        IconButton(
             painter = painterResource(id = R.drawable.baseline_local_fire_department_24),
-            contentDescription = stringResource(id = R.string.clear_everything),
-            tint = MaterialTheme.colorScheme.primary
+            contentDescription = stringResource(id = R.string.clear_everything)
         )
-        Box(
-            modifier = Modifier
-                .size(iconSizeDp)
+        IconButton(
+            painter = painterResource(id = R.drawable.baseline_web_asset_24),
+            contentDescription = stringResource(id = R.string.opened_tabs_count),
+            caption = "1"
         ) {
-            Icon(
-                modifier = Modifier
-                    .size(iconSizeDp), // Set icon size
-                painter = painterResource(id = R.drawable.baseline_web_asset_24),
-                contentDescription = stringResource(id = R.string.opened_tabs_count),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = "${mainActivityViewModel.mTabCount}",
-                modifier = Modifier
-                    .align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary
-            )
+            onTabsClicked()
         }
 
-
-        Icon(
-            modifier = Modifier
-                .size(iconSizeDp),
+        IconButton(
             painter = painterResource(id = R.drawable.baseline_table_rows_24),
-            contentDescription = stringResource(id = R.string.more_bottombar),
-            tint = MaterialTheme.colorScheme.primary
+            contentDescription = stringResource(id = R.string.more_bottombar)
         )
     }
 }
