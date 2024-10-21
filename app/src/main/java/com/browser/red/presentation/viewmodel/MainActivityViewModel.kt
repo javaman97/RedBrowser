@@ -3,6 +3,7 @@ package com.browser.red.presentation.viewmodel
 import android.content.Context
 import android.webkit.WebView
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
@@ -61,8 +62,12 @@ class MainActivityViewModel @Inject constructor(
     private val _currentTab:MutableStateFlow<RedBrowserTab?> = MutableStateFlow(null)
     val currentTab = _currentTab.asStateFlow()
 
+
     var mTabCount by mutableStateOf(0)
         private set
+
+    private var _tabsList = mutableStateListOf<RedBrowserTab>()
+    val tabsList:List<RedBrowserTab> = _tabsList
 
     fun initialiseTab(context:Context){
         val tab = openNewTab(WebView(context),"https://www.youtube.com")
@@ -70,7 +75,8 @@ class MainActivityViewModel @Inject constructor(
         setWebViewClient(tab)
         setWebChromeClient(tab)
         loadUrl(tab)
-        mTabCount++
+        mTabCount = getTabCount()
+        _tabsList.add(tab)
     }
 
 
