@@ -2,6 +2,7 @@ package com.browser.red.presentation.ui.components
 
 import android.webkit.WebView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,15 +37,22 @@ fun RedBrowserTabPreview(){
     RedBrowserTabItem(tab)
 }
 @Composable
-fun RedBrowserTabItem(tab:RedBrowserTab){
+fun RedBrowserTabItem(
+    tab:RedBrowserTab,
+    onClick:()->Unit={}
+    ){
     val sizeDp = DpSize(width = 120.dp, height = 150.dp)
     Card (elevation = CardDefaults.cardElevation(8.dp),
         modifier = Modifier
             .padding(Dimensions.MediumPadding)
             .size(sizeDp)
 
+
     ) {
-        Box{
+        Box(
+            modifier = Modifier
+                .clickable { onClick() }
+        ){
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

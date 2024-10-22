@@ -2,6 +2,7 @@ package com.browser.core_browser.domain.manager
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.runtime.mutableStateListOf
 import com.browser.core_browser.domain.model.RedBrowserTab
 import java.util.UUID
 
@@ -11,7 +12,7 @@ import java.util.UUID
  * Manages the lifecycle of browser tabs, including creating, switching, and closing tabs.
  */
 class DefaultTabManager : TabManager {
-    private val tabs = mutableListOf<RedBrowserTab>()
+    private val tabs = mutableStateListOf<RedBrowserTab>()
     private var currentTabIndex = 0
 
     /**
@@ -91,4 +92,7 @@ class DefaultTabManager : TabManager {
         tabs.getOrNull(currentTabIndex)?.url = url
     }
 
+    override fun listTabs(): List<RedBrowserTab> {
+        return tabs
+    }
 }
