@@ -69,4 +69,6 @@ interface TabManager {
     fun updateCurrentTabUrl(url: String)
 
 
+    fun listTabs():List<RedBrowserTab>
+
 }

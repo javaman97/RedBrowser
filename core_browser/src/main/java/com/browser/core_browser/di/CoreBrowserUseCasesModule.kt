@@ -126,4 +126,10 @@ object CoreBrowserUseCasesModule {
     fun providesGetTabCountUseCase(tabManager: TabManager): GetTabCountUseCase {
         return GetTabCountUseCaseImpl(tabManager)
     }
+
+    @Singleton
+    @Provides
+    fun providesListTabsUseCase(tabManager: TabManager):ListTabsUseCase{
+        return ListTabsUseCaseImpl(tabManager)
+    }
 }

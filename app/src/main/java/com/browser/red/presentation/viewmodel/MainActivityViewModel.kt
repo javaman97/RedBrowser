@@ -3,17 +3,15 @@ package com.browser.red.presentation.viewmodel
 import android.content.Context
 import android.webkit.WebView
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.browser.core_browser.domain.model.RedBrowserTab
 import com.browser.core_browser.domain.model.WebViewClientData
 import com.browser.core_browser.domain.usecases.ConfigureWebViewUseCase
 import com.browser.core_browser.domain.usecases.GetCurrentTabUseCase
 import com.browser.core_browser.domain.usecases.GetTabCountUseCase
+import com.browser.core_browser.domain.usecases.ListTabsUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCase
 import com.browser.core_browser.domain.usecases.ObserveWebViewClientDataUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
@@ -45,6 +43,7 @@ import javax.inject.Inject
  * @param switchToTabUseCase Use case for switching between browser tabs.
  * @param observeWebViewClientDataUseCase Use case for observing required data in WebViewClient
  * @param getTabCountUseCase Use case for getting total tab count
+ * @param listTabsUseCase Use case to list all opened tabs
  */
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
@@ -57,26 +56,23 @@ class MainActivityViewModel @Inject constructor(
     private val switchToTabUseCase: SwitchToTabUseCase,
     private val observeWebViewClientDataUseCase: ObserveWebViewClientDataUseCase,
     private val getTabCountUseCase: GetTabCountUseCase,
+    private val listTabsUseCase: ListTabsUseCase
 ) : ViewModel() {
 
-    private val _currentTab:MutableStateFlow<RedBrowserTab?> = MutableStateFlow(null)
-    val currentTab = _currentTab.asStateFlow()
-
+    var mCurrentTab by mutableStateOf<RedBrowserTab?>(null)
+        private set
 
     var mTabCount by mutableStateOf(0)
         private set
 
-    private var _tabsList = mutableStateListOf<RedBrowserTab>()
-    val tabsList:List<RedBrowserTab> = _tabsList
-
-    fun initialiseTab(context:Context){
-        val tab = openNewTab(WebView(context),"https://www.youtube.com")
+    fun addTab(context:Context, url:String = "https://www.google.com"){
+        val tab = openNewTab(WebView(context),url)
         configureWebView(tab)
         setWebViewClient(tab)
         setWebChromeClient(tab)
         loadUrl(tab)
+        mCurrentTab =  tab
         mTabCount = getTabCount()
-        _tabsList.add(tab)
     }
 
 
@@ -87,11 +83,10 @@ class MainActivityViewModel @Inject constructor(
      * @param url The URL to load in the new tab.
      * @return The newly created [RedBrowserTab].
      */
-    fun openNewTab(webView: WebView, url: String): RedBrowserTab {
+    private fun openNewTab(webView: WebView, url: String): RedBrowserTab {
         return openNewTabUseCase(webView, url).apply {
-            _currentTab.value = this
+           mCurrentTab = this
         }
-
     }
 
     /**
@@ -125,11 +120,12 @@ class MainActivityViewModel @Inject constructor(
     fun switchToTab(index: Int) {
         val switchedTab = switchToTabUseCase(index)
         if (switchedTab != null) {
-            _currentTab.value = switchedTab
+            mCurrentTab = switchedTab
         } else {
             // Handle the case where the tab switch failed
             Timber.i("Tab switch failed: index $index is out of bounds.")
         }
+
     }
 
     /**
@@ -187,6 +183,10 @@ class MainActivityViewModel @Inject constructor(
 
     fun getTabCount():Int{
        return getTabCountUseCase()
+    }
+
+    fun listTabs():List<RedBrowserTab>{
+        return listTabsUseCase()
     }
 
 }

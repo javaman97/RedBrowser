@@ -65,7 +65,7 @@ fun BottomBarMain(
         IconButton(
             painter = painterResource(id = R.drawable.baseline_web_asset_24),
             contentDescription = stringResource(id = R.string.opened_tabs_count),
-            caption = "1"
+            caption = mainActivityViewModel.listTabs().count().toString()
         ) {
             onTabsClicked()
         }

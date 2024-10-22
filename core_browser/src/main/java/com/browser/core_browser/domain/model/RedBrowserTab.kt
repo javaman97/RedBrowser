@@ -21,7 +21,7 @@ import java.util.UUID
  */
 data class RedBrowserTab(
     val id: UUID = UUID.randomUUID(),
-    val webView: WebView,
+    var webView: WebView,
     var url: String,
     var webViewClient: WebViewClient? = null,
     var webChromeClient: WebChromeClient? = null
