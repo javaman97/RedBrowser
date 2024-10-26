@@ -20,19 +20,16 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     tab: RedBrowserTab?
 ) {
-    if (tab?.webView != null) {
-        key(tab.id){
-            AndroidView(
-                factory = { tab.webView },
-                update = { webView ->
-                    // You can do updates here if needed, but avoid reloading URLs
-                    // For example, you can update the visibility, settings, etc.
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .then(modifier),
-            )
-        }
+    if (tab != null) {
+        AndroidView(
+            factory = { tab.webView },
+            update = { webView ->
+                tab.webView = webView
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .then(modifier),
+        )
 
     }
 }

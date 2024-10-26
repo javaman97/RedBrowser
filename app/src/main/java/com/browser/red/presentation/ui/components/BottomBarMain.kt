@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.browser.red.R
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
+import com.browser.red.ui.theme.Gray400
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -43,6 +46,7 @@ fun BottomBarMain(
     onTabsClicked: () -> Unit = {}
 ) {
     val iconSizeDp = DpSize(28.dp, 28.dp)
+    val scope = rememberCoroutineScope()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,14 +54,40 @@ fun BottomBarMain(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
-            contentDescription = stringResource(id = R.string.go_back)
-        )
-        IconButton(
-            painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-            contentDescription = stringResource(id = R.string.go_forward)
-        )
+        if(mainActivityViewModel.canGoBack){
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
+                contentDescription = stringResource(id = R.string.go_back)
+            ){
+               scope.launch {
+                   mainActivityViewModel.goBack()
+               }
+            }
+        } else {
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
+                contentDescription = stringResource(id = R.string.go_back),
+                tint = Gray400
+            )
+        }
+
+        if(mainActivityViewModel.canGoForward){
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
+                contentDescription = stringResource(id = R.string.go_forward)
+            ){
+                scope.launch {
+                    mainActivityViewModel.goForward()
+                }
+            }
+        } else {
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
+                contentDescription = stringResource(id = R.string.go_forward),
+                tint = Gray400
+            )
+        }
+
         IconButton(
             painter = painterResource(id = R.drawable.baseline_local_fire_department_24),
             contentDescription = stringResource(id = R.string.clear_everything)

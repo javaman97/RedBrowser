@@ -11,35 +11,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.browser.red.domain.utils.WebUtils
 import com.browser.red.presentation.ui.components.AddressBar
 import com.browser.red.presentation.ui.components.BottomBarMain
 import com.browser.red.presentation.navigation.NavGraph
 import com.browser.red.presentation.ui.components.LinearProgressBar
-import com.browser.red.presentation.ui.screens.HomeDefaultScreen
-import com.browser.red.presentation.ui.screens.HomeScreen
-import com.browser.red.presentation.ui.screens.TabsScreen
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.RedBrowserTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -69,7 +55,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(vertical = 4.dp)
                         ) {
                             LinearProgressBar(
-                                isPageFinished = mainActivityViewModel.isPageFinished,
+                                onPageStarted = mainActivityViewModel.onPageStarted,
                                 progress =  mainActivityViewModel.pageProgress)
                             AddressBar(
                                 onGoPressed = { text ->

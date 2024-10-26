@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 
 @Composable
-fun LinearProgressBar(isPageFinished:Boolean,progress:Float) {
-    if(!isPageFinished){
+fun LinearProgressBar(onPageStarted:Boolean,progress:Float) {
+    if(onPageStarted){
         LinearProgressIndicator(
             progress = {progress},
             modifier = Modifier

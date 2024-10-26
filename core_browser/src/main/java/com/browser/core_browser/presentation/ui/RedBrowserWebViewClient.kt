@@ -27,7 +27,8 @@ class RedBrowserWebViewClient : WebViewClient() {
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
         _data.value = _data.value.copy(
-            isPageFinished = false,
+            onPageStarted = true,
+            onPageFinished = false,
             favIcon = favicon,
             url = url
         )
@@ -35,7 +36,8 @@ class RedBrowserWebViewClient : WebViewClient() {
 
     override fun onPageFinished(view: WebView?, url: String?) {
         _data.value = _data.value.copy(
-            isPageFinished = true,
+            onPageStarted = false,
+            onPageFinished = true,
             url = url
         )
     }

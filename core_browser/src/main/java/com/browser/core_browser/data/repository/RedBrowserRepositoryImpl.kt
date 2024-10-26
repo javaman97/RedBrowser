@@ -9,21 +9,18 @@ import com.browser.core_browser.domain.repository.RedBrowserRepository
 /**
  * Implementation of [RedBrowserRepository] for managing browser tabs and [WebView] settings.
  *
- * This class provides functionality to configure web views, load URLs,
- * and manage web view data for instances of [RedBrowserTab].
- *
- * It enables JavaScript, manages caching behavior, and provides methods to
- * clear data, set clients, and retrieve web view settings.
+ * This class provides methods to configure web views, load URLs, clear data,
+ * set custom clients, and handle navigation events in [RedBrowserTab] instances.
+ * It enables JavaScript, manages caching behavior, and customizes client settings.
  */
 class RedBrowserRepositoryImpl : RedBrowserRepository {
 
     /**
-     * Configures the given [RedBrowserTab]'s [WebView] settings.
+     * Configures [WebView] settings for a given [RedBrowserTab].
      *
-     * This method enables JavaScript and sets the cache mode to no cache.
-     * It also clears the history and cache for the [WebView].
+     * Enables JavaScript, disables caching, and clears history and cache for the web view.
      *
-     * @param tab The [RedBrowserTab] to configure.
+     * @param tab The [RedBrowserTab] containing the [WebView] to configure.
      * @return The configured [RedBrowserTab] instance.
      */
     override fun configureWebView(tab: RedBrowserTab): RedBrowserTab {
@@ -37,30 +34,30 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
     }
 
     /**
-     * Loads the specified URL in the given [RedBrowserTab].
+     * Loads the specified URL in the [WebView] of the provided [RedBrowserTab].
      *
-     * @param tab The [RedBrowserTab] in which to load the URL.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the URL will be loaded.
      */
     override fun loadUrl(tab: RedBrowserTab) {
         tab.webView.loadUrl(tab.url)
     }
 
     /**
-     * Retrieves the [WebSettings] for the specified [RedBrowserTab]'s [WebView].
+     * Retrieves the [WebSettings] for the [WebView] of the specified [RedBrowserTab].
      *
-     * @param tab The [RedBrowserTab] whose settings are to be retrieved.
-     * @return The [WebSettings] of the [WebView].
+     * @param tab The [RedBrowserTab] containing the [WebView] whose settings are retrieved.
+     * @return The [WebSettings] of the web view.
      */
     override fun getWebViewSettings(tab: RedBrowserTab): WebSettings {
         return tab.webView.settings
     }
 
     /**
-     * Clears the data of the given [RedBrowserTab]'s [WebView].
+     * Clears browsing data in the [WebView] of the specified [RedBrowserTab].
      *
-     * This method clears the web view's cache, history, and form data.
+     * Clears cache, history, and form data, providing a clean state for the next browsing session.
      *
-     * @param tab The [RedBrowserTab] whose data will be cleared.
+     * @param tab The [RedBrowserTab] containing the [WebView] to clear data from.
      */
     override fun clearWebViewData(tab: RedBrowserTab) {
         tab.webView.apply {
@@ -71,13 +68,12 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
     }
 
     /**
-     * Sets a custom [WebViewClient] for the specified [RedBrowserTab]'s [WebView].
+     * Sets a custom [WebViewClient] to handle web content loading events for the [WebView] in the specified [RedBrowserTab].
      *
-     * This method assigns the provided client to the web view and updates
-     * the corresponding property in the [RedBrowserTab].
+     * Assigns the provided client to the web view and updates the tab’s [WebViewClient] property.
      *
-     * @param tab The [RedBrowserTab] for which the [WebViewClient] will be set.
-     * @param client The [WebViewClient] to be associated with the specified tab.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the client is set.
+     * @param client The [WebViewClient] for handling web content loading events.
      */
     override fun setWebViewClient(tab: RedBrowserTab, client: WebViewClient) {
         tab.webView.webViewClient = client
@@ -85,16 +81,53 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
     }
 
     /**
-     * Sets a custom [WebChromeClient] for the specified [RedBrowserTab]'s [WebView].
+     * Sets a custom [WebChromeClient] for managing UI events in the [WebView] of the specified [RedBrowserTab].
      *
-     * This method assigns the provided client to the web view and updates
-     * the corresponding property in the [RedBrowserTab].
+     * Updates the tab’s [WebChromeClient] property to the provided client for handling UI-related events.
      *
-     * @param tab The [RedBrowserTab] for which the [WebChromeClient] will be set.
-     * @param client The [WebChromeClient] to be associated with the specified tab.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the client is set.
+     * @param client The [WebChromeClient] for managing UI events.
      */
     override fun setWebChromeClient(tab: RedBrowserTab, client: WebChromeClient) {
         tab.webView.webChromeClient = client
         tab.webChromeClient = client
+    }
+
+    /**
+     * Checks if the [WebView] in the specified [RedBrowserTab] can navigate back in its browsing history.
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to check for back navigation.
+     * @return `true` if the web view can navigate back; otherwise, `false`.
+     */
+    override fun canGoBack(tab: RedBrowserTab): Boolean {
+        return tab.webView.canGoBack()
+    }
+
+    /**
+     * Navigates back in the browsing history of the [WebView] in the specified [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to navigate back.
+     */
+    override fun goBack(tab: RedBrowserTab) {
+        tab.webView.goBack()
+    }
+
+    /**
+     * Checks if the [WebView] in the specified [RedBrowserTab] can navigate forward in its browsing history.
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to check for forward navigation.
+     * @return `true` if the web view can navigate forward; otherwise, `false`.
+     */
+    override fun canGoForward(tab: RedBrowserTab): Boolean {
+        return tab.webView.canGoForward()
+    }
+
+    /**
+     * Navigates forward in the browsing history of the [WebView] in the specified [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to navigate forward.
+     */
+    override fun goForward(tab: RedBrowserTab) {
+        tab.webView.goForward()
     }
 }

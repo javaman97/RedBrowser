@@ -7,70 +7,96 @@ import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
 
 /**
- * Repository interface for managing browser tabs and their associated [WebView] settings.
+ * Repository interface for managing browser tabs and configuring associated [WebView] instances.
  *
- * This repository provides methods for configuring web views, loading URLs,
- * retrieving web view settings, and clearing web view data. It also allows
- * setting custom [WebViewClient] and [WebChromeClient] for handling web view events.
+ * This repository provides methods for configuring and controlling web views in browser tabs,
+ * including loading URLs, customizing web view clients, and handling navigation events.
  */
 interface RedBrowserRepository {
 
     /**
-     * Configures the given [RedBrowserTab]'s [WebView] settings.
+     * Configures the [WebView] settings for the given [RedBrowserTab].
      *
-     * This method enables JavaScript and disables caching by setting the cache mode to
-     * [WebSettings.LOAD_NO_CACHE]. It also clears the web view's history and cache.
+     * Sets JavaScript enabled, disables caching, clears history, and wipes the cache
+     * for a fresh browsing session.
      *
-     * @param tab The [RedBrowserTab] that contains the [WebView] to be configured.
-     * @return The updated [RedBrowserTab] with the configured [WebView].
+     * @param tab The [RedBrowserTab] containing the [WebView] to configure.
+     * @return The updated [RedBrowserTab] with configured [WebView] settings.
      */
     fun configureWebView(tab: RedBrowserTab): RedBrowserTab
 
     /**
-     * Loads the specified URL into the given [RedBrowserTab]'s [WebView].
+     * Loads a URL in the specified [RedBrowserTab]'s [WebView].
      *
-     * @param tab The [RedBrowserTab] that contains the [WebView] in which the URL will be loaded.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the URL will be loaded.
      */
     fun loadUrl(tab: RedBrowserTab)
 
     /**
-     * Retrieves the [WebSettings] of the [WebView] from the given [RedBrowserTab].
+     * Gets the [WebSettings] of the [WebView] in the specified [RedBrowserTab].
      *
-     * The [WebSettings] can be used to further customize the behavior of the web view,
-     * such as controlling JavaScript, zoom controls, caching, and more.
+     * [WebSettings] allow customization of web view features, including JavaScript support,
+     * zoom controls, and caching.
      *
-     * @param tab The [RedBrowserTab] that contains the [WebView] whose settings will be retrieved.
-     * @return The [WebSettings] of the specified [WebView].
+     * @param tab The [RedBrowserTab] containing the [WebView] whose settings are retrieved.
+     * @return The [WebSettings] for the specified [WebView].
      */
     fun getWebViewSettings(tab: RedBrowserTab): WebSettings
 
     /**
-     * Clears all data from the [WebView] in the given [RedBrowserTab].
+     * Clears browsing data in the [WebView] of the specified [RedBrowserTab].
      *
-     * This method clears the web view's cache, history, and form data, ensuring a clean slate
-     * for the next browsing session.
+     * Removes the web view's cache, history, and form data to provide a clean browsing state.
      *
-     * @param tab The [RedBrowserTab] that contains the [WebView] whose data will be cleared.
+     * @param tab The [RedBrowserTab] containing the [WebView] to clear data from.
      */
     fun clearWebViewData(tab: RedBrowserTab)
 
     /**
-     * Sets a custom [WebViewClient] for the given [RedBrowserTab]'s [WebView].
+     * Sets a custom [WebViewClient] for handling web content events in the [WebView] of the specified [RedBrowserTab].
      *
-     * The [WebViewClient] is responsible for handling various events during the loading of web content.
-     *
-     * @param tab The [RedBrowserTab] that contains the [WebView] for which the client will be set.
-     * @param client The [WebViewClient] to be associated with the specified tab.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the client is set.
+     * @param client The [WebViewClient] to handle events like page loading and navigation.
      */
     fun setWebViewClient(tab: RedBrowserTab, client: WebViewClient)
 
     /**
-     * Sets a custom [WebChromeClient] for the given [RedBrowserTab]'s [WebView].
+     * Sets a custom [WebChromeClient] for handling UI events in the [WebView] of the specified [RedBrowserTab].
      *
-     * The [WebChromeClient] handles UI-related changes such as progress updates and title changes.
+     * The [WebChromeClient] manages events such as progress updates, title changes, and prompts.
      *
-     * @param tab The [RedBrowserTab] that contains the [WebView] for which the client will be set.
-     * @param client The [WebChromeClient] to be associated with the specified tab.
+     * @param tab The [RedBrowserTab] containing the [WebView] where the client is set.
+     * @param client The [WebChromeClient] to manage UI-related events in the web view.
      */
     fun setWebChromeClient(tab: RedBrowserTab, client: WebChromeClient)
+
+    /**
+     * Checks if the [WebView] in the specified [RedBrowserTab] can navigate back in its history.
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to check for back navigation.
+     * @return `true` if the web view can navigate back; otherwise, `false`.
+     */
+    fun canGoBack(tab: RedBrowserTab): Boolean
+
+    /**
+     * Navigates back in the history of the [WebView] in the specified [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to navigate back.
+     */
+    fun goBack(tab: RedBrowserTab)
+
+    /**
+     * Checks if the [WebView] in the specified [RedBrowserTab] can navigate forward in its history.
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to check for forward navigation.
+     * @return `true` if the web view can navigate forward; otherwise, `false`.
+     */
+    fun canGoForward(tab: RedBrowserTab): Boolean
+
+    /**
+     * Navigates forward in the history of the [WebView] in the specified [RedBrowserTab].
+     *
+     * @param tab The [RedBrowserTab] containing the [WebView] to navigate forward.
+     */
+    fun goForward(tab: RedBrowserTab)
 }
