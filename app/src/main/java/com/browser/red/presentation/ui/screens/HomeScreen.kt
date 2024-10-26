@@ -1,5 +1,6 @@
 package com.browser.red.presentation.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +28,9 @@ fun HomeScreen(
                     // You can do updates here if needed, but avoid reloading URLs
                     // For example, you can update the visibility, settings, etc.
                 },
-                modifier = modifier,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(modifier),
             )
         }
 

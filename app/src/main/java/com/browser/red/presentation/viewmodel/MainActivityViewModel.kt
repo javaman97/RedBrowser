@@ -3,9 +3,11 @@ package com.browser.red.presentation.viewmodel
 import android.content.Context
 import android.webkit.WebView
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.browser.core_browser.domain.model.RedBrowserTab
 import com.browser.core_browser.domain.model.WebViewClientData
 import com.browser.core_browser.domain.usecases.ConfigureWebViewUseCase
@@ -13,6 +15,7 @@ import com.browser.core_browser.domain.usecases.GetCurrentTabUseCase
 import com.browser.core_browser.domain.usecases.GetTabCountUseCase
 import com.browser.core_browser.domain.usecases.ListTabsUseCase
 import com.browser.core_browser.domain.usecases.LoadUrlUseCase
+import com.browser.core_browser.domain.usecases.ObserveChromeClientData
 import com.browser.core_browser.domain.usecases.ObserveWebViewClientDataUseCase
 import com.browser.core_browser.domain.usecases.OpenNewTabUseCase
 import com.browser.core_browser.domain.usecases.SetWebChromeClientUseCase
@@ -20,10 +23,11 @@ import com.browser.core_browser.domain.usecases.SetWebViewClientUseCase
 import com.browser.core_browser.domain.usecases.SwitchToTabUseCase
 import com.browser.core_browser.presentation.ui.RedBrowserChromeClient
 import com.browser.core_browser.presentation.ui.RedBrowserWebViewClient
+import com.browser.red.domain.utils.WebUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -55,6 +59,7 @@ class MainActivityViewModel @Inject constructor(
     private val setWebChromeClientUseCase: SetWebChromeClientUseCase,
     private val switchToTabUseCase: SwitchToTabUseCase,
     private val observeWebViewClientDataUseCase: ObserveWebViewClientDataUseCase,
+    private val observeChromeClientDataUseCase:ObserveChromeClientData,
     private val getTabCountUseCase: GetTabCountUseCase,
     private val listTabsUseCase: ListTabsUseCase
 ) : ViewModel() {
@@ -62,17 +67,26 @@ class MainActivityViewModel @Inject constructor(
     var mCurrentTab by mutableStateOf<RedBrowserTab?>(null)
         private set
 
-    var mTabCount by mutableStateOf(0)
+    var pageProgress by mutableFloatStateOf(0.0f)
         private set
 
-    fun addTab(context:Context, url:String = "https://www.google.com"){
+    var canGoBack by mutableStateOf(false)
+        private set
+
+    var canGoForward by mutableStateOf(false)
+        private set
+
+    var isPageFinished by mutableStateOf(true)
+
+    fun addTab(context:Context, url:String = WebUtils.DEFAULT_URL){
         val tab = openNewTab(WebView(context),url)
         configureWebView(tab)
         setWebViewClient(tab)
         setWebChromeClient(tab)
         loadUrl(tab)
         mCurrentTab =  tab
-        mTabCount = getTabCount()
+        observeChromeClientData()
+        observeWebViewClientData()
     }
 
 
@@ -172,12 +186,22 @@ class MainActivityViewModel @Inject constructor(
      * @return A [StateFlow] of [WebViewClientData] associated with the current tab,
      * or null if there is no active tab.
      */
-    fun observeWebViewClientData(): StateFlow<WebViewClientData>? {
+    fun observeWebViewClientData() = viewModelScope.launch(Dispatchers.IO){
         val currentTab = getCurrentTabUseCase()
-        return if (currentTab != null) {
-            observeWebViewClientDataUseCase(currentTab)
-        } else {
-            null
+        if(currentTab != null){
+            observeWebViewClientDataUseCase(currentTab)?.collect{ data ->
+                isPageFinished = data.isPageFinished
+            }
+        }
+    }
+
+    fun observeChromeClientData() = viewModelScope.launch(Dispatchers.IO) {
+        val currentTab = getCurrentTabUseCase()
+        if(currentTab != null ){
+            observeChromeClientDataUseCase(currentTab)?.collect{ data ->
+                pageProgress = data.progress / 100f
+
+            }
         }
     }
 

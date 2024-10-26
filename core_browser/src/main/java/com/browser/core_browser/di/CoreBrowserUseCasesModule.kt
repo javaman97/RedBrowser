@@ -115,6 +115,12 @@ object CoreBrowserUseCasesModule {
         return ObserveWebViewClientDataUseCaseImpl()
     }
 
+    @Singleton
+    @Provides
+    fun provideObserveChromeClientDataUseCase():ObserveChromeClientData{
+        return ObserveChromeClientDataImpl()
+    }
+
     /**
      * Provides an implementation of [GetTabCountUseCase] using the provided [TabManager].
      *
@@ -132,4 +138,6 @@ object CoreBrowserUseCasesModule {
     fun providesListTabsUseCase(tabManager: TabManager):ListTabsUseCase{
         return ListTabsUseCaseImpl(tabManager)
     }
+
+
 }

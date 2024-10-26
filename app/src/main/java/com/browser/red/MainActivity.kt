@@ -22,11 +22,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.browser.red.domain.utils.WebUtils
 import com.browser.red.presentation.ui.components.AddressBar
 import com.browser.red.presentation.ui.components.BottomBarMain
+import com.browser.red.presentation.navigation.NavGraph
+import com.browser.red.presentation.ui.components.LinearProgressBar
+import com.browser.red.presentation.ui.screens.HomeDefaultScreen
 import com.browser.red.presentation.ui.screens.HomeScreen
 import com.browser.red.presentation.ui.screens.TabsScreen
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
@@ -51,7 +57,8 @@ class MainActivity : ComponentActivity() {
             RedBrowserTheme(darkTheme = false) {
                 val scope = rememberCoroutineScope()
                 val sheetState = rememberModalBottomSheetState()
-                var showBottomSheet by remember { mutableStateOf(false) }
+                val navController = rememberNavController()
+
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -61,11 +68,14 @@ class MainActivity : ComponentActivity() {
                                 .background(MaterialTheme.colorScheme.primaryContainer)
                                 .padding(vertical = 4.dp)
                         ) {
+                            LinearProgressBar(
+                                isPageFinished = mainActivityViewModel.isPageFinished,
+                                progress =  mainActivityViewModel.pageProgress)
                             AddressBar(
                                 onGoPressed = { text ->
-                                    mainActivityViewModel.getCurrentTab()?.let {
-                                        it.url = text
-                                        mainActivityViewModel.loadUrl(it)
+                                    mainActivityViewModel.getCurrentTab()?.let { currentTab ->
+                                       currentTab.url = text
+                                        mainActivityViewModel.loadUrl(currentTab)
                                     }
 
                                 }
@@ -73,7 +83,7 @@ class MainActivity : ComponentActivity() {
                             BottomBarMain(
                                 mainActivityViewModel = mainActivityViewModel,
                                 onTabsClicked = {
-                                    showBottomSheet = !showBottomSheet
+                                   navController.navigate("tabs_screen")
                                 }
                             )
                         }
@@ -84,31 +94,10 @@ class MainActivity : ComponentActivity() {
                         .padding(innerPadding)
                     App(
                         modifier = modifier,
+                        navController=navController,
                         mainActivityViewModel = mainActivityViewModel
                     )
 
-                    if (showBottomSheet) {
-                        ModalBottomSheet(
-                            sheetState = sheetState,
-                            onDismissRequest = { showBottomSheet = false }
-                        ) {
-                            TabsScreen(
-                                list = mainActivityViewModel.listTabs(),
-                                onAddTabClicked = {
-                                    mainActivityViewModel.addTab(
-                                        context = mContext,
-                                        url = "http://www.google.com"
-                                    )
-                                },
-                                onTabSwitched = { index ->
-                                    scope.launch {
-                                        showBottomSheet = false
-                                        mainActivityViewModel.switchToTab(index)
-                                    }
-                                }
-                            )
-                        }
-                    }
                 }
             }
         }
@@ -116,8 +105,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun App(modifier: Modifier, mainActivityViewModel: MainActivityViewModel) {
-    HomeScreen(modifier = modifier, mainActivityViewModel.mCurrentTab)
+fun App(modifier: Modifier, navController: NavHostController, mainActivityViewModel: MainActivityViewModel) {
+  NavGraph(
+      modifier = modifier,
+      navController = navController ,
+      mainActivityViewModel = mainActivityViewModel)
 }
 
 
