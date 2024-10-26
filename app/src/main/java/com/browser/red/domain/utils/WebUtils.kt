@@ -1,6 +1,6 @@
 package com.browser.red.domain.utils
 object WebUtils{
-    const val DEFAULT_URL = "https://www.google.com"
+    const val DEFAULT_URL = "new_tab"
 }
 fun String.extractBaseDomain(): String {
     return this

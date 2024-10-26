@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             RedBrowserTheme(darkTheme = false) {
                 val scope = rememberCoroutineScope()
-                val sheetState = rememberModalBottomSheetState()
                 val navController = rememberNavController()
 
                 Scaffold(

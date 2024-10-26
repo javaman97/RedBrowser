@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.browser.core_browser.domain.model.RedBrowserTab
 import androidx.compose.runtime.key
+import com.browser.red.domain.utils.WebUtils
 
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import timber.log.Timber
@@ -20,7 +21,10 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     tab: RedBrowserTab?
 ) {
-    if (tab != null) {
+    if(tab == null) return
+    if (tab.url == WebUtils.DEFAULT_URL) {
+        HomeDefaultScreen()
+    } else {
         AndroidView(
             factory = { tab.webView },
             update = { webView ->
@@ -30,6 +34,5 @@ fun HomeScreen(
                 .fillMaxSize()
                 .then(modifier),
         )
-
     }
 }

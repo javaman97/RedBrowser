@@ -93,10 +93,12 @@ class MainActivityViewModel @Inject constructor(
         configureWebView(tab)
         setWebViewClient(tab)
         setWebChromeClient(tab)
-        loadUrl(tab)
         mCurrentTab = tab
         observeChromeClientData()
         observeWebViewClientData()
+        if(tab.url != WebUtils.DEFAULT_URL){
+            loadUrl(tab)
+        }
     }
 
     /**

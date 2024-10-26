@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.browser.red.R
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.Gray400
@@ -45,7 +46,6 @@ fun BottomBarMain(
     mainActivityViewModel: MainActivityViewModel,
     onTabsClicked: () -> Unit = {}
 ) {
-    val iconSizeDp = DpSize(28.dp, 28.dp)
     val scope = rememberCoroutineScope()
     Row(
         modifier = Modifier
@@ -95,7 +95,8 @@ fun BottomBarMain(
         IconButton(
             painter = painterResource(id = R.drawable.baseline_web_asset_24),
             contentDescription = stringResource(id = R.string.opened_tabs_count),
-            caption = mainActivityViewModel.listTabs().count().toString()
+            caption = mainActivityViewModel.listTabs().count().toString(),
+            fontSize = 14.sp
         ) {
             onTabsClicked()
         }

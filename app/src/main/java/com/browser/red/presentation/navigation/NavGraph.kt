@@ -26,6 +26,7 @@ fun NavGraph(modifier:Modifier, navController: NavHostController, mainActivityVi
                 onAddTabClicked = {
                     scope.launch {
                         mainActivityViewModel.addTab(context = context)
+                        navController.navigateUp()
                     }
 
                 },
@@ -34,7 +35,8 @@ fun NavGraph(modifier:Modifier, navController: NavHostController, mainActivityVi
                         navController.navigateUp()
                         mainActivityViewModel.switchToTab(index)
                     }
-                }
+                },
+                onBackClicked = { navController.navigateUp()}
             )
         }
     }

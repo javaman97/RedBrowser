@@ -20,7 +20,9 @@ import androidx.compose.ui.graphics.vector.VectorPainter
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
@@ -39,6 +41,7 @@ fun IconButton(
     size: DpSize = DpSize(width = 32.dp, height = 32.dp),
     tint:Color? = null,
     caption:String = "",
+    fontSize:TextUnit = 14.sp,
     onClick:()->Unit = {}
     ){
     Box(
@@ -54,7 +57,7 @@ fun IconButton(
                     .fillMaxSize(),
                 painter = painter,
                 contentDescription = contentDescription,
-                tint = tint ?: MaterialTheme.colorScheme.primary
+                tint = tint ?: MaterialTheme.colorScheme.onPrimaryContainer
             )
         } else if(imageVector != null){
             Icon(
@@ -71,7 +74,8 @@ fun IconButton(
                 text = caption,
                 modifier = Modifier
                     .align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = fontSize
             )
         }
     }

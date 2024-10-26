@@ -17,11 +17,19 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.browser.red.ui.theme.Blue600
 import com.browser.red.ui.theme.Gray400
 import com.browser.red.ui.theme.Gray600
 import com.browser.red.ui.theme.Gray800
+import com.browser.red.ui.theme.Orange300
+import com.browser.red.ui.theme.Orange400
+import com.browser.red.ui.theme.Orange600
+import com.browser.red.ui.theme.Orange700
+import com.browser.red.ui.theme.Orange800
+import com.browser.red.ui.theme.Orange900
 import com.browser.red.ui.theme.Red300
 import com.browser.red.ui.theme.Red400
+import com.browser.red.ui.theme.Red700
 import com.browser.red.ui.theme.Red800
 import com.browser.red.ui.theme.Red900
 
@@ -36,16 +44,16 @@ fun HomeDefaultScreen() {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val animatedOffsetY by infiniteTransition.animateFloat(
-        initialValue = 1000f,
+        initialValue = 500f,
         targetValue = 2000f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 5000, easing = LinearEasing),
+            animation = tween(durationMillis = 4000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ), label = ""
     )
 
     val brush = Brush.linearGradient(
-        colors = listOf(Red900, Red300),
+        colors = listOf(Red800, Orange700),
         start = Offset(x = 0f, y = 0f),
         end = Offset(x = 0f, y = animatedOffsetY)
     )
