@@ -101,7 +101,9 @@ dependencies {
 
     //Timber
     implementation (libs.timber)
-    
+    implementation(libs.coil.compose)
+
+
 
 }
 kapt {

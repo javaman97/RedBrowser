@@ -12,16 +12,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.browser.red.presentation.ui.components.AddressBar
+import com.browser.red.domain.utils.extractBaseDomain
+import com.browser.red.presentation.ui.components.AddressBarEditable
 import com.browser.red.presentation.ui.components.BottomBarMain
 import com.browser.red.presentation.navigation.NavGraph
+import com.browser.red.presentation.ui.components.AddressBarMain
+import com.browser.red.presentation.ui.components.AddressBarSimple
 import com.browser.red.presentation.ui.components.LinearProgressBar
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.RedBrowserTheme
@@ -56,15 +62,7 @@ class MainActivity : ComponentActivity() {
                             LinearProgressBar(
                                 onPageStarted = mainActivityViewModel.onPageStarted,
                                 progress =  mainActivityViewModel.pageProgress)
-                            AddressBar(
-                                onGoPressed = { text ->
-                                    mainActivityViewModel.getCurrentTab()?.let { currentTab ->
-                                       currentTab.url = text
-                                        mainActivityViewModel.loadUrl(currentTab)
-                                    }
-
-                                }
-                            )
+                            AddressBarMain(mainActivityViewModel = mainActivityViewModel)
                             BottomBarMain(
                                 mainActivityViewModel = mainActivityViewModel,
                                 onTabsClicked = {

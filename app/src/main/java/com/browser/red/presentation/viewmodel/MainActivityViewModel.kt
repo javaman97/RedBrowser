@@ -70,6 +70,12 @@ class MainActivityViewModel @Inject constructor(
     var pageProgress by mutableFloatStateOf(0.0f)
         private set
 
+    var pageTitle by mutableStateOf("")
+        private set
+
+    var currentUrl by mutableStateOf("")
+        private set
+
     var canGoBack by mutableStateOf(false)
         private set
 
@@ -81,6 +87,8 @@ class MainActivityViewModel @Inject constructor(
 
     var onPageStarted by mutableStateOf(true)
         private set
+
+    var showAddressBarEditable by mutableStateOf(true)
 
     /**
      * Adds a new tab with the specified [url] and sets up required WebView settings, clients, and observers.
@@ -130,6 +138,7 @@ class MainActivityViewModel @Inject constructor(
      */
     fun loadUrl(tab: RedBrowserTab) {
         loadUrlUseCase(tab)
+        showAddressBarEditable = false
     }
 
     /**
@@ -179,7 +188,10 @@ class MainActivityViewModel @Inject constructor(
             observeWebViewClientDataUseCase(tab)?.collect { data ->
                 onPageStarted = data.onPageStarted
                 onPageFinished = data.onPageFinished
-                data.url?.let { tab.url = it }
+                data.url?.let {
+                    tab.url = it
+                    currentUrl = it
+                }
                 withContext(Dispatchers.Main) {
                     canGoBack = canGoBackUseCase(tab)
                     canGoForward = canGoForwardUseCase(tab)
@@ -195,6 +207,7 @@ class MainActivityViewModel @Inject constructor(
         getCurrentTab()?.let { tab ->
             observeChromeClientDataUseCase(tab)?.collect { data ->
                 pageProgress = data.progress / 100f
+                pageTitle = data.title.toString()
             }
         }
     }
