@@ -18,7 +18,7 @@ fun NavGraph(modifier:Modifier, navController: NavHostController, mainActivityVi
     val scope = rememberCoroutineScope()
     NavHost(navController, startDestination = "home_screen"){
         composable(route = "home_screen"){
-            HomeScreen(modifier,mainActivityViewModel.mCurrentTab)
+            HomeScreen(modifier,mainActivityViewModel)
         }
         composable(route = "tabs_screen"){
             TabsScreen(

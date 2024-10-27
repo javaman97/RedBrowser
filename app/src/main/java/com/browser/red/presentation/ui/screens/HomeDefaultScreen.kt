@@ -7,31 +7,32 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.browser.red.ui.theme.Blue600
-import com.browser.red.ui.theme.Gray400
-import com.browser.red.ui.theme.Gray600
-import com.browser.red.ui.theme.Gray800
-import com.browser.red.ui.theme.Orange300
-import com.browser.red.ui.theme.Orange400
-import com.browser.red.ui.theme.Orange600
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.browser.red.domain.model.HomeIcon
+import com.browser.red.presentation.ui.components.HomeIconItem
+import com.browser.red.presentation.viewmodel.HomeDefaultScreenViewModel
+import com.browser.red.presentation.viewmodel.MainActivityViewModel
+import com.browser.red.ui.theme.Dimensions
 import com.browser.red.ui.theme.Orange700
-import com.browser.red.ui.theme.Orange800
-import com.browser.red.ui.theme.Orange900
-import com.browser.red.ui.theme.Red300
-import com.browser.red.ui.theme.Red400
-import com.browser.red.ui.theme.Red700
 import com.browser.red.ui.theme.Red800
-import com.browser.red.ui.theme.Red900
 
 @Preview()
 @Composable
@@ -40,7 +41,10 @@ fun HomeDefaultScreenPreview(){
 }
 
 @Composable
-fun HomeDefaultScreen() {
+fun HomeDefaultScreen(
+    homeDefaultScreenViewModel: HomeDefaultScreenViewModel = hiltViewModel(),
+    onHomeIconClicked:(HomeIcon)->Unit = {}
+    ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val animatedOffsetY by infiniteTransition.animateFloat(
@@ -62,7 +66,20 @@ fun HomeDefaultScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(brush)
+            .padding(vertical = Dimensions.MediumPadding)
     ) {
-        // Your UI content goes here
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            contentPadding = PaddingValues(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(homeDefaultScreenViewModel.getIcons()){icon ->
+                HomeIconItem(icon){
+                    onHomeIconClicked(it)
+                }
+            }
+        }
     }
 }
+

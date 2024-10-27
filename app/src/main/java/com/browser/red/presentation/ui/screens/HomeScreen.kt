@@ -19,11 +19,16 @@ import timber.log.Timber
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    tab: RedBrowserTab?
+    mainActivityViewModel: MainActivityViewModel
 ) {
-    if(tab == null) return
+    val tab = mainActivityViewModel.mCurrentTab ?: return
     if (tab.url == WebUtils.DEFAULT_URL) {
-        HomeDefaultScreen()
+        HomeDefaultScreen{
+            if(it.url != null){
+                val newTab = tab.copy(url = it.url)
+                mainActivityViewModel.loadUrl(newTab)
+            }
+        }
     } else {
         AndroidView(
             factory = { tab.webView },
