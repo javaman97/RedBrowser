@@ -2,6 +2,7 @@ package com.browser.core_browser.data.repository
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.view.View.OnScrollChangeListener
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -137,6 +138,10 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
 
     override fun refreshWebPage(tab: RedBrowserTab) {
         tab.webView.reload()
+    }
+
+    override fun setScrollChangeListener(tab: RedBrowserTab, listener: OnScrollChangeListener?) {
+        tab.webView.setOnScrollChangeListener(listener)
     }
 
 }

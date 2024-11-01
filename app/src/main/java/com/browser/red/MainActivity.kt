@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,27 +51,30 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize(),
                     bottomBar = {
-                        Column(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.primaryContainer)
-                                .padding(vertical = 4.dp)
+                        AnimatedVisibility(
+                            visible = mainActivityViewModel.showBottomBar
                         ) {
-                            LinearProgressBar(
-                                onPageStarted = mainActivityViewModel.onPageStarted,
-                                progress =  mainActivityViewModel.pageProgress)
-                            AddressBarMain(mainActivityViewModel = mainActivityViewModel)
-                            BottomBarMain(
-                                mainActivityViewModel = mainActivityViewModel,
-                                tabsScreenViewModel = tabsScreenViewModel,
-                                onTabsClicked = {
-                                   scope.launch {
-                                       mainActivityViewModel.captureCurrentTabThumbnail()
-                                       navController.navigate("tabs_screen")
-                                   }
-                                }
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.primaryContainer)
+                                    .padding(vertical = 4.dp)
+                            ) {
+                                LinearProgressBar(
+                                    onPageStarted = mainActivityViewModel.onPageStarted,
+                                    progress =  mainActivityViewModel.pageProgress)
+                                AddressBarMain(mainActivityViewModel = mainActivityViewModel)
+                                BottomBarMain(
+                                    mainActivityViewModel = mainActivityViewModel,
+                                    tabsScreenViewModel = tabsScreenViewModel,
+                                    onTabsClicked = {
+                                        scope.launch {
+                                            mainActivityViewModel.captureCurrentTabThumbnail()
+                                            navController.navigate("tabs_screen")
+                                        }
+                                    }
+                                )
+                            }
                         }
-
                     }
                 ) { innerPadding ->
                     val modifier = Modifier

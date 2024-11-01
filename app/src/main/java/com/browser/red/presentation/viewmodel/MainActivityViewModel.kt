@@ -1,6 +1,8 @@
 package com.browser.red.presentation.viewmodel
 
 import android.content.Context
+import android.view.View
+import android.view.View.OnScrollChangeListener
 import android.webkit.WebView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -64,8 +66,21 @@ class MainActivityViewModel @Inject constructor(
     private val canGoForwardUseCase: CanGoForwardUseCase,
     private val goForwardUseCase: GoForwardUseCase,
     private val setThumbnailUseCase: SetThumbnailUseCase,
-    private val refreshWebPageUseCase: RefreshWebPageUseCase
+    private val refreshWebPageUseCase: RefreshWebPageUseCase,
+    private val setScrollChangeListenerUseCase: SetScrollChangeListenerUseCase
 ) : ViewModel() {
+
+    private val webViewScrollChangeListener by lazy {
+        OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                //scroll down
+               showBottomBar = false
+            } else if (scrollY < oldScrollY) {
+                //scroll up
+                showBottomBar = true
+            }
+        }
+    }
 
     var mCurrentTab by mutableStateOf<RedBrowserTab?>(null)
         private set
@@ -93,6 +108,10 @@ class MainActivityViewModel @Inject constructor(
 
     var showAddressBarEditable by mutableStateOf(true)
 
+    var showBottomBar by mutableStateOf(true)
+        private set
+
+
     /**
      * Adds a new tab with the specified [url] and sets up required WebView settings, clients, and observers.
      *
@@ -104,6 +123,7 @@ class MainActivityViewModel @Inject constructor(
         configureWebView(tab)
         setWebViewClient(tab)
         setWebChromeClient(tab)
+        setScrollChangeListenerUseCase(tab,webViewScrollChangeListener)
         mCurrentTab = tab
         observeChromeClientData()
         observeWebViewClientData()

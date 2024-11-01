@@ -217,4 +217,10 @@ object CoreBrowserUseCasesModule {
     fun providesRefreshWebPageUseCase(repository: RedBrowserRepository):RefreshWebPageUseCase{
         return RefreshWebPageUseCaseImpl(repository)
     }
+
+    @Singleton
+    @Provides
+    fun providesSetScrollChangeListenerUseCase():SetScrollChangeListenerUseCase{
+        return SetScrollChangeListenerUseCaseImpl()
+    }
 }

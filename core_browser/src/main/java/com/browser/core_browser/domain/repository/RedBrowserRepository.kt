@@ -1,6 +1,7 @@
 package com.browser.core_browser.domain.repository
 
 import android.graphics.Bitmap
+import android.view.View.OnScrollChangeListener
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -102,4 +103,6 @@ interface RedBrowserRepository {
     fun goForward(tab: RedBrowserTab)
 
     fun refreshWebPage(tab:RedBrowserTab)
+
+    fun setScrollChangeListener(tab: RedBrowserTab,listener: OnScrollChangeListener?)
 }
