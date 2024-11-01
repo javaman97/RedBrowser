@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,7 +48,8 @@ fun AddressBarSimple(
                 modifier = Modifier
                     .size(iconSize),
                 painter = painterResource(id = R.drawable.controls_alt_svgrepo_com),
-                contentDescription = stringResource(id = R.string.controls_settings)
+                contentDescription = stringResource(id = R.string.controls_settings),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
             )
             Text(
                 modifier = Modifier

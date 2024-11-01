@@ -66,7 +66,7 @@ fun IconButton(
                     .fillMaxSize(),
                 imageVector = imageVector,
                 contentDescription = contentDescription,
-                tint = tint ?: MaterialTheme.colorScheme.primary
+                tint = tint ?: MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         if(caption.isNotEmpty()){
@@ -74,7 +74,7 @@ fun IconButton(
                 text = caption,
                 modifier = Modifier
                     .align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary,
+                color = tint ?: MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = fontSize
             )
         }

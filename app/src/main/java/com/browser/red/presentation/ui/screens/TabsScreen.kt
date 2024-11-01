@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -45,7 +46,8 @@ fun TabsScreen(
         ){
             Row(
                 modifier = Modifier.fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primaryContainer),
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .padding(end = Dimensions.MediumPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
@@ -64,8 +66,8 @@ fun TabsScreen(
                     horizontalArrangement = Arrangement.End
                 ){
                     IconButton(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(id=R.string.add_new_tab),
+                        painter = painterResource(id = R.drawable.baseline_add_circle_24),
+                        contentDescription = stringResource(id=R.string.add_new_tab)
                     ){
                         onAddTabClicked()
                     }

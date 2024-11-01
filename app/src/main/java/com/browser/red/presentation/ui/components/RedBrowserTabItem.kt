@@ -59,6 +59,7 @@ fun RedBrowserTabItem(
     ) {
         Box(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .clickable { onClick() }
         ){
             Column(
@@ -70,7 +71,7 @@ fun RedBrowserTabItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(1f),
-                    model = tab.thumbnail ?: R.drawable.linkedin_svgrepo_com,
+                    model = tab.thumbnail ?: R.drawable.face_with_tongue_svgrepo_com,
                     contentDescription = "testing",
                     contentScale = ContentScale.Crop
                 )

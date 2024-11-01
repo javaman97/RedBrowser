@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,7 +67,7 @@ fun HomeDefaultScreen(
     )
 
     val brush = Brush.linearGradient(
-        colors = listOf(Red800, Orange700),
+        colors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary),
         start = Offset(x = 0f, y = 0f),
         end = Offset(x = 0f, y = animatedOffsetY)
     )
