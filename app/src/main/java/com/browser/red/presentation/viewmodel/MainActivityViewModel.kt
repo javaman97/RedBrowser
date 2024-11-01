@@ -57,11 +57,11 @@ class MainActivityViewModel @Inject constructor(
     private val observeWebViewClientDataUseCase: ObserveWebViewClientDataUseCase,
     private val observeChromeClientDataUseCase: ObserveChromeClientData,
     private val getTabCountUseCase: GetTabCountUseCase,
-    private val listTabsUseCase: ListTabsUseCase,
     private val canGoBackUseCase: CanGoBackUseCase,
     private val goBackUseCase: GoBackUseCase,
     private val canGoForwardUseCase: CanGoForwardUseCase,
-    private val goForwardUseCase: GoForwardUseCase
+    private val goForwardUseCase: GoForwardUseCase,
+    private val setThumbnailUseCase: SetThumbnailUseCase
 ) : ViewModel() {
 
     var mCurrentTab by mutableStateOf<RedBrowserTab?>(null)
@@ -150,8 +150,6 @@ class MainActivityViewModel @Inject constructor(
         val switchedTab = switchToTabUseCase(index)
         if (switchedTab != null) {
             mCurrentTab = switchedTab
-        } else {
-            Timber.i("Tab switch failed: index $index is out of bounds.")
         }
     }
 
@@ -183,8 +181,8 @@ class MainActivityViewModel @Inject constructor(
     /**
      * Observes the WebViewClient data events for the active tab, updating state as needed.
      */
-    private fun observeWebViewClientData() = viewModelScope.launch(Dispatchers.IO) {
-        getCurrentTab()?.let { tab ->
+    private fun observeWebViewClientData() = viewModelScope.launch {
+        mCurrentTab?.let { tab ->
             observeWebViewClientDataUseCase(tab)?.collect { data ->
                 onPageStarted = data.onPageStarted
                 onPageFinished = data.onPageFinished
@@ -192,10 +190,11 @@ class MainActivityViewModel @Inject constructor(
                     tab.url = it
                     currentUrl = it
                 }
-                withContext(Dispatchers.Main) {
-                    canGoBack = canGoBackUseCase(tab)
-                    canGoForward = canGoForwardUseCase(tab)
-                }
+                canGoBack = canGoBackUseCase(tab)
+                canGoForward = canGoForwardUseCase(tab)
+               data.thumbnail?.let{ thumbnail ->
+                   setThumbnailUseCase(tab.id, thumbnail)
+               }
             }
         }
     }
@@ -212,12 +211,7 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Retrieves a list of all currently opened tabs.
-     *
-     * @return A list of [RedBrowserTab] representing all opened tabs.
-     */
-    fun listTabs(): List<RedBrowserTab> = listTabsUseCase()
+
 
     /**
      * Navigates back in the current tab's browsing history, if possible.

@@ -1,5 +1,6 @@
 package com.browser.core_browser.domain.repository
 
+import android.graphics.Bitmap
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView

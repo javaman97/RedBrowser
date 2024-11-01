@@ -1,5 +1,6 @@
 package com.browser.core_browser.domain.manager
 
+import android.graphics.Bitmap
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.mutableStateListOf
@@ -38,6 +39,16 @@ class DefaultTabManager : TabManager {
             if (currentTabIndex >= tabs.size) {
                 currentTabIndex = tabs.lastIndex
             }
+        }
+    }
+
+    override fun closeTab(tab: RedBrowserTab) {
+        if(tabs.isNotEmpty()){
+           if(getCurrentTab() == tab){
+               closeCurrentTab()
+           } else {
+               tabs.remove(tab)
+           }
         }
     }
 
@@ -94,5 +105,12 @@ class DefaultTabManager : TabManager {
 
     override fun listTabs(): List<RedBrowserTab> {
         return tabs
+    }
+
+    override fun setThumbnail(id: UUID, thumbnail: Bitmap) {
+        val tab = getTabById(id)
+        if(tab != null){
+            tab.thumbnail = thumbnail
+        }
     }
 }

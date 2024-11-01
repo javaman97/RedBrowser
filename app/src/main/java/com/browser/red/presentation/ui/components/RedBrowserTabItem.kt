@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -17,12 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.browser.core_browser.domain.model.RedBrowserTab
+import com.browser.red.R
 import com.browser.red.domain.utils.extractBaseDomain
 import com.browser.red.ui.theme.Dimensions
 
@@ -39,7 +42,8 @@ fun RedBrowserTabPreview(){
 @Composable
 fun RedBrowserTabItem(
     tab:RedBrowserTab,
-    onClick:()->Unit={}
+    onClick:()->Unit = {},
+    onRemove:(tab:RedBrowserTab)->Unit = {}
     ){
     val sizeDp = DpSize(width = 120.dp, height = 150.dp)
     Card (elevation = CardDefaults.cardElevation(8.dp),
@@ -56,12 +60,13 @@ fun RedBrowserTabItem(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(1f),
-                    imageVector = Icons.Default.Face,
-                    contentDescription = "testing"
+                    model = tab.thumbnail ?: R.drawable.linkedin_svgrepo_com,
+                    contentDescription = "testing",
+                    contentScale = ContentScale.Crop
                 )
                 Text(
                     modifier = Modifier
@@ -72,6 +77,14 @@ fun RedBrowserTabItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            Image(
+                modifier = Modifier
+                    .size(32.dp)
+                    .align(Alignment.TopEnd)
+                    .clickable { onRemove(tab) },
+                painter = painterResource(id = R.drawable.twotone_highlight_off_24),
+                contentDescription = stringResource(id = R.string.remove_tab)
+            )
         }
     }
 }

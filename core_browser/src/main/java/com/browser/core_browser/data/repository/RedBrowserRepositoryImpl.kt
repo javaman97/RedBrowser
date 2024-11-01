@@ -1,8 +1,12 @@
 package com.browser.core_browser.data.repository
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.view.drawToBitmap
 import com.browser.core_browser.domain.model.RedBrowserTab
 import com.browser.core_browser.domain.repository.RedBrowserRepository
 
@@ -130,4 +134,5 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
     override fun goForward(tab: RedBrowserTab) {
         tab.webView.goForward()
     }
+
 }

@@ -4,9 +4,14 @@ import android.graphics.Bitmap
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.browser.core_browser.Utils.captureImage
 import com.browser.core_browser.domain.model.WebViewClientData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Custom WebViewClient for managing page load and request interception.
@@ -35,10 +40,15 @@ class RedBrowserWebViewClient : WebViewClient() {
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
-        _data.value = _data.value.copy(
-            onPageStarted = false,
-            onPageFinished = true,
-            url = url
-        )
+        CoroutineScope(Dispatchers.IO).launch{
+            val thumbnail = view?.captureImage()
+            _data.value = _data.value.copy(
+                onPageStarted = false,
+                onPageFinished = true,
+                url = url,
+                thumbnail = thumbnail
+            )
+        }
     }
+
 }

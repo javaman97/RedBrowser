@@ -1,5 +1,6 @@
 package com.browser.core_browser.domain.manager
 
+import android.graphics.Bitmap
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.browser.core_browser.domain.model.RedBrowserTab
@@ -27,6 +28,8 @@ interface TabManager {
      * If no tabs are left, no action is performed.
      */
     fun closeCurrentTab()
+
+    fun closeTab(tab: RedBrowserTab)
 
     /**
      * Switches to the tab at the specified [index].
@@ -70,5 +73,7 @@ interface TabManager {
 
 
     fun listTabs():List<RedBrowserTab>
+
+    fun setThumbnail(id:UUID,thumbnail:Bitmap)
 
 }

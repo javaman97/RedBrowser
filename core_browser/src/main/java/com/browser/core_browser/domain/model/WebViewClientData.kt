@@ -14,6 +14,7 @@ data class WebViewClientData(
     var onPageStarted: Boolean = false,
     var onPageFinished: Boolean = true,
     var favIcon: Bitmap? = null,
-    var url: String? = null
+    var url: String? = null,
+    var thumbnail:Bitmap? = null
 )
 

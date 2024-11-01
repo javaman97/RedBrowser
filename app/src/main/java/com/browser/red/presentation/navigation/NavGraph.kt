@@ -9,11 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.browser.red.presentation.ui.screens.HomeScreen
 import com.browser.red.presentation.ui.screens.TabsScreen
+import com.browser.red.presentation.viewmodel.TabsScreenViewModel
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun NavGraph(modifier:Modifier, navController: NavHostController, mainActivityViewModel: MainActivityViewModel){
+fun NavGraph(
+    modifier: Modifier,
+    navController: NavHostController,
+    mainActivityViewModel: MainActivityViewModel,
+    tabsScreenViewModel: TabsScreenViewModel
+){
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     NavHost(navController, startDestination = "home_screen"){
@@ -22,7 +28,7 @@ fun NavGraph(modifier:Modifier, navController: NavHostController, mainActivityVi
         }
         composable(route = "tabs_screen"){
             TabsScreen(
-                list = mainActivityViewModel.listTabs(),
+                tabsScreenViewModel = tabsScreenViewModel,
                 onAddTabClicked = {
                     scope.launch {
                         mainActivityViewModel.addTab(context = context)

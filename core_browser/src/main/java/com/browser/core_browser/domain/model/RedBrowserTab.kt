@@ -1,5 +1,6 @@
 package com.browser.core_browser.domain.model
 
+import android.graphics.Bitmap
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -18,11 +19,13 @@ import java.util.UUID
  * @property url The current URL loaded in the WebView. Can be updated as the user navigates.
  * @property webViewClient Optional custom [WebViewClient] for managing page load events in this tab.
  * @property webChromeClient Optional custom [WebChromeClient] for handling browser-specific UI changes.
+ * @property thumbnail Optional to show thumbnail in multiple tabs view
  */
 data class RedBrowserTab(
     val id: UUID = UUID.randomUUID(),
     var webView: WebView,
     var url: String,
     var webViewClient: WebViewClient? = null,
-    var webChromeClient: WebChromeClient? = null
+    var webChromeClient: WebChromeClient? = null,
+    var thumbnail: Bitmap? = null
 )

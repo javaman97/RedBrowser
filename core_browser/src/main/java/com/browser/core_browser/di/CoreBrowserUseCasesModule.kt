@@ -199,4 +199,16 @@ object CoreBrowserUseCasesModule {
     fun providesGoForwardUseCase(repository: RedBrowserRepository): GoForwardUseCase {
         return GoForwardUseCaseImpl(repository)
     }
+
+    @Singleton
+    @Provides
+    fun providesSetThumbnailUseCase(tabManager: TabManager):SetThumbnailUseCase{
+        return SetThumbnailUseCaseImpl(tabManager)
+    }
+
+    @Singleton
+    @Provides
+    fun providesCloseTabUseCase(tabManager: TabManager):CloseTabUseCase{
+        return CloseTabUseCaseImpl(tabManager)
+    }
 }
