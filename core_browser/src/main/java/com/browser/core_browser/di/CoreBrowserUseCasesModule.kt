@@ -200,27 +200,70 @@ object CoreBrowserUseCasesModule {
         return GoForwardUseCaseImpl(repository)
     }
 
+    /**
+     * Provides an instance of [SetThumbnailUseCase] for dependency injection.
+     *
+     * This function supplies a singleton [SetThumbnailUseCase] implementation, which
+     * manages setting thumbnail images for browser tabs, allowing tab previews to be
+     * displayed to the user. The instance is constructed with a [TabManager] to manage
+     * the active tabs.
+     *
+     * @param tabManager The [TabManager] responsible for managing active browser tabs.
+     * @return A singleton instance of [SetThumbnailUseCase].
+     */
     @Singleton
     @Provides
-    fun providesSetThumbnailUseCase(tabManager: TabManager):SetThumbnailUseCase{
+    fun providesSetThumbnailUseCase(tabManager: TabManager): SetThumbnailUseCase {
         return SetThumbnailUseCaseImpl(tabManager)
     }
 
+    /**
+     * Provides an instance of [CloseTabUseCase] for dependency injection.
+     *
+     * This function supplies a singleton [CloseTabUseCase] implementation to handle
+     * the closing of browser tabs, facilitating resource management and user navigation.
+     * It utilizes a [TabManager] to identify and manage tabs marked for closure.
+     *
+     * @param tabManager The [TabManager] responsible for managing active browser tabs.
+     * @return A singleton instance of [CloseTabUseCase].
+     */
     @Singleton
     @Provides
-    fun providesCloseTabUseCase(tabManager: TabManager):CloseTabUseCase{
+    fun providesCloseTabUseCase(tabManager: TabManager): CloseTabUseCase {
         return CloseTabUseCaseImpl(tabManager)
     }
 
+    /**
+     * Provides an instance of [RefreshWebPageUseCase] for dependency injection.
+     *
+     * This function supplies a singleton [RefreshWebPageUseCase] implementation, which
+     * handles the reloading of web pages in a specified browser tab to ensure updated
+     * content display. It uses a [RedBrowserRepository] for accessing or interacting
+     * with repository data.
+     *
+     * @param repository The [RedBrowserRepository] for interacting with repository data.
+     * @return A singleton instance of [RefreshWebPageUseCase].
+     */
     @Singleton
     @Provides
-    fun providesRefreshWebPageUseCase(repository: RedBrowserRepository):RefreshWebPageUseCase{
+    fun providesRefreshWebPageUseCase(repository: RedBrowserRepository): RefreshWebPageUseCase {
         return RefreshWebPageUseCaseImpl(repository)
     }
 
+    /**
+     * Provides an instance of [SetScrollChangeListenerUseCase] for dependency injection.
+     *
+     * This function supplies a singleton [SetScrollChangeListenerUseCase] implementation
+     * for observing scroll position changes in a browser tab. It helps in implementing
+     * dynamic UI effects, such as hiding toolbars or triggering specific actions based on
+     * scroll events.
+     *
+     * @return A singleton instance of [SetScrollChangeListenerUseCase].
+     */
     @Singleton
     @Provides
-    fun providesSetScrollChangeListenerUseCase():SetScrollChangeListenerUseCase{
+    fun providesSetScrollChangeListenerUseCase(): SetScrollChangeListenerUseCase {
         return SetScrollChangeListenerUseCaseImpl()
     }
+
 }

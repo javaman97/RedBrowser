@@ -48,6 +48,9 @@ import javax.inject.Inject
  * @param goBackUseCase Use case to navigate back in the current tab.
  * @param canGoForwardUseCase Use case to check if forward navigation is possible.
  * @param goForwardUseCase Use case to navigate forward in the current tab.
+ * @param setThumbnailUseCase Use case to capture image of current tab and set as thumbnail
+ * @param refreshWebPageUseCase Use case to refresh the current page
+ * @param setScrollChangeListenerUseCase Use case to set scroll listener for webview
  */
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(

@@ -136,12 +136,35 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
         tab.webView.goForward()
     }
 
+    /**
+     * Reloads the current webpage within the specified browser tab.
+     *
+     * This function triggers a refresh of the webpage loaded in the `webView` component
+     * of the provided [RedBrowserTab] instance by calling `reload()` on the `webView`.
+     * It ensures that the latest content is fetched from the server and displayed to the user.
+     *
+     * @param tab The [RedBrowserTab] containing the `webView` component to be refreshed.
+     */
     override fun refreshWebPage(tab: RedBrowserTab) {
         tab.webView.reload()
     }
 
+    /**
+     * Sets a listener to monitor scroll changes within the specified browser tab.
+     *
+     * This function attaches an [OnScrollChangeListener] to the `webView` component of the
+     * provided [RedBrowserTab], enabling observation of scroll position changes. It uses
+     * the `setOnScrollChangeListener` method on the `webView`, which is helpful for
+     * implementing dynamic UI effects, such as hiding toolbars or triggering actions at specific
+     * scroll positions.
+     *
+     * @param tab The [RedBrowserTab] in which the scroll listener is to be set.
+     * @param listener The [OnScrollChangeListener] instance that will receive scroll change
+     * callbacks, or `null` to remove any previously set listener.
+     */
     override fun setScrollChangeListener(tab: RedBrowserTab, listener: OnScrollChangeListener?) {
         tab.webView.setOnScrollChangeListener(listener)
     }
+
 
 }
