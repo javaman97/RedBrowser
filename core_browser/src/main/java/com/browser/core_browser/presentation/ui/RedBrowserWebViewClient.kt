@@ -41,12 +41,10 @@ class RedBrowserWebViewClient : WebViewClient() {
 
     override fun onPageFinished(view: WebView?, url: String?) {
         CoroutineScope(Dispatchers.IO).launch{
-            val thumbnail = view?.captureImage()
             _data.value = _data.value.copy(
                 onPageStarted = false,
                 onPageFinished = true,
-                url = url,
-                thumbnail = thumbnail
+                url = url
             )
         }
     }

@@ -6,8 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.browser.core_browser.Utils.captureImage
 import com.browser.core_browser.domain.model.RedBrowserTab
 import com.browser.core_browser.domain.model.WebViewClientData
 import com.browser.core_browser.domain.usecases.*
@@ -104,6 +106,8 @@ class MainActivityViewModel @Inject constructor(
         mCurrentTab = tab
         observeChromeClientData()
         observeWebViewClientData()
+        showAddressBarEditable = true
+        currentUrl = ""
         if(tab.url != WebUtils.DEFAULT_URL){
             loadUrl(tab)
         }
@@ -192,9 +196,6 @@ class MainActivityViewModel @Inject constructor(
                 }
                 canGoBack = canGoBackUseCase(tab)
                 canGoForward = canGoForwardUseCase(tab)
-               data.thumbnail?.let{ thumbnail ->
-                   setThumbnailUseCase(tab.id, thumbnail)
-               }
             }
         }
     }
@@ -225,5 +226,14 @@ class MainActivityViewModel @Inject constructor(
      */
     fun goForward() {
         mCurrentTab?.let { goForwardUseCase(it) }
+    }
+
+    fun captureCurrentTabThumbnail() = viewModelScope.launch(Dispatchers.IO){
+        mCurrentTab?.let{tab ->
+           if(tab.url != WebUtils.DEFAULT_URL){
+               val thumbnail = tab.webView.captureImage()
+               setThumbnailUseCase(tab.id,thumbnail)
+           }
+        }
     }
 }

@@ -26,6 +26,7 @@ import com.browser.red.presentation.viewmodel.TabsScreenViewModel
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.RedBrowserTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -62,7 +63,10 @@ class MainActivity : ComponentActivity() {
                                 mainActivityViewModel = mainActivityViewModel,
                                 tabsScreenViewModel = tabsScreenViewModel,
                                 onTabsClicked = {
-                                   navController.navigate("tabs_screen")
+                                   scope.launch {
+                                       mainActivityViewModel.captureCurrentTabThumbnail()
+                                       navController.navigate("tabs_screen")
+                                   }
                                 }
                             )
                         }
