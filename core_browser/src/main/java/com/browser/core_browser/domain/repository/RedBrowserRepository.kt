@@ -100,4 +100,6 @@ interface RedBrowserRepository {
      * @param tab The [RedBrowserTab] containing the [WebView] to navigate forward.
      */
     fun goForward(tab: RedBrowserTab)
+
+    fun refreshWebPage(tab:RedBrowserTab)
 }

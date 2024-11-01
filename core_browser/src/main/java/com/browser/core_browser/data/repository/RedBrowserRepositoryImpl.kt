@@ -135,4 +135,8 @@ class RedBrowserRepositoryImpl : RedBrowserRepository {
         tab.webView.goForward()
     }
 
+    override fun refreshWebPage(tab: RedBrowserTab) {
+        tab.webView.reload()
+    }
+
 }

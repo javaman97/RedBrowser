@@ -21,7 +21,8 @@ fun AddressBarMain(
     } else {
         AddressBarSimple(
             title = mainActivityViewModel.pageTitle,
-            onAddressClicked = { mainActivityViewModel.showAddressBarEditable = true}
+            onAddressClicked = { mainActivityViewModel.showAddressBarEditable = true},
+            onRefreshClicked = { mainActivityViewModel.refreshWebPage()}
         )
     }
 }

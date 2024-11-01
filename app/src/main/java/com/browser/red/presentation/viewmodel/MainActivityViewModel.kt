@@ -63,7 +63,8 @@ class MainActivityViewModel @Inject constructor(
     private val goBackUseCase: GoBackUseCase,
     private val canGoForwardUseCase: CanGoForwardUseCase,
     private val goForwardUseCase: GoForwardUseCase,
-    private val setThumbnailUseCase: SetThumbnailUseCase
+    private val setThumbnailUseCase: SetThumbnailUseCase,
+    private val refreshWebPageUseCase: RefreshWebPageUseCase
 ) : ViewModel() {
 
     var mCurrentTab by mutableStateOf<RedBrowserTab?>(null)
@@ -234,6 +235,12 @@ class MainActivityViewModel @Inject constructor(
                val thumbnail = tab.webView.captureImage()
                setThumbnailUseCase(tab.id,thumbnail)
            }
+        }
+    }
+
+    fun refreshWebPage(){
+        mCurrentTab?.let { tab ->
+            refreshWebPageUseCase(tab)
         }
     }
 }

@@ -211,4 +211,10 @@ object CoreBrowserUseCasesModule {
     fun providesCloseTabUseCase(tabManager: TabManager):CloseTabUseCase{
         return CloseTabUseCaseImpl(tabManager)
     }
+
+    @Singleton
+    @Provides
+    fun providesRefreshWebPageUseCase(repository: RedBrowserRepository):RefreshWebPageUseCase{
+        return RefreshWebPageUseCaseImpl(repository)
+    }
 }

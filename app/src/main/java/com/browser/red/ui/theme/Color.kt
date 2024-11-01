@@ -54,4 +54,15 @@ val Blue200 = Color(0xFF93c2f4)
 val Blue100 = Color(0xFFbcd9f8)
 val Blue50 = Color(0xFFe3f0fc)
 
+val Green900 = Color(0xFF008b00)
+val Green800 = Color(0xFF09af00)
+val Green700 = Color(0xFF41c300)
+val Green600 = Color(0xFF61d800)
+val Green500 = Color(0xFF75e900)
+val Green400 = Color(0xFF90ee02)
+val Green300 = Color(0xFFaaf255)
+val Green200 = Color(0xFFc6f68d)
+val Green100 = Color(0xFFdefabb)
+val Green50 = Color(0xFFf2fde4)
+
 
