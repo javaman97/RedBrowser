@@ -22,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -35,7 +37,8 @@ fun AddressBarEditable(
     currentUrl:String = "",
     onTextChanged:(newText:String)->Unit={},
     onGoPressed:(text:String)->Unit={},
-    onClearClicked:()->Unit = {}
+    onClearClicked:()->Unit = {},
+    onFocusChanged:(FocusState) -> Unit = {}
     ){
     val keyboardController = LocalSoftwareKeyboardController.current
     var txtSearch by remember { mutableStateOf(currentUrl) }
@@ -43,7 +46,9 @@ fun AddressBarEditable(
     Card (elevation = CardDefaults.cardElevation(2.dp),
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth()){
+            .fillMaxWidth()
+            .onFocusChanged { onFocusChanged(it) }
+    ){
         TextField(
             modifier = Modifier
                 .fillMaxWidth()

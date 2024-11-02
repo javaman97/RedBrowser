@@ -72,7 +72,10 @@ class MainActivity : ComponentActivity() {
                                     targetOffsetX = { it }
                                 )
                             ){
-                                AddressBarMain(mainActivityViewModel = mainActivityViewModel)
+                                AddressBarMain(
+                                    mainActivityViewModel = mainActivityViewModel,
+                                    showEditableBar = mainActivityViewModel.showAddressBarEditable
+                                    )
                             }
 
                             //BottomBar

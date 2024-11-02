@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.browser.core_browser.domain.model.RedBrowserTab
 import androidx.compose.runtime.key
+import androidx.compose.ui.focus.onFocusChanged
 import com.browser.red.domain.utils.WebUtils
 
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
@@ -37,6 +38,11 @@ fun HomeScreen(
             },
             modifier = Modifier
                 .fillMaxSize()
+                .onFocusChanged {
+                    if(it.hasFocus){
+                        mainActivityViewModel.showAddressBarEditable = false
+                    }
+                }
                 .then(modifier),
         )
     }

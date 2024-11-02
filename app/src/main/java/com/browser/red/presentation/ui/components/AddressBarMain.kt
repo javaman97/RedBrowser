@@ -2,12 +2,14 @@ package com.browser.red.presentation.ui.components
 
 import androidx.compose.runtime.Composable
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
+import timber.log.Timber
 
 @Composable
 fun AddressBarMain(
-    mainActivityViewModel: MainActivityViewModel
+    mainActivityViewModel: MainActivityViewModel,
+    showEditableBar:Boolean
 ) {
-    if(mainActivityViewModel.showAddressBarEditable){
+    if(showEditableBar){
         AddressBarEditable(
             currentUrl = mainActivityViewModel.currentUrl,
             onGoPressed = { text ->
@@ -15,7 +17,6 @@ fun AddressBarMain(
                     currentTab.url = text
                     mainActivityViewModel.loadUrl(currentTab)
                 }
-
             }
         )
     } else {

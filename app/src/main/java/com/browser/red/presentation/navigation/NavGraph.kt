@@ -1,6 +1,7 @@
 package com.browser.red.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -27,7 +28,9 @@ fun NavGraph(
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    mainActivityViewModel.showAddressBar = currentRoute == Route.Home.name
+    LaunchedEffect (currentRoute){
+        mainActivityViewModel.showAddressBar = currentRoute == Route.Home.name
+    }
 
     NavHost(navController, startDestination = Route.Home.name){
         composable(route = Route.Home.name){
