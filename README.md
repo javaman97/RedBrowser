@@ -24,4 +24,9 @@ We are keenly waiting for your PRs
 - SOLID principles is **mandatory**.
 - Strictly use design patterns is **crucial**.
 
+## How to contribute
+- Fork the project
+- Pick a task in **issues**
+- Complete it and create PR
+
 Thank you for your interest in contributing to RedBrowser!
