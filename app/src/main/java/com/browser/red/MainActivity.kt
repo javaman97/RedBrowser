@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.browser.red.presentation.ui.components.BottomBarMain
 import com.browser.red.presentation.navigation.NavGraph
+import com.browser.red.presentation.navigation.Route
 import com.browser.red.presentation.ui.components.AddressBarMain
 import com.browser.red.presentation.ui.components.LinearProgressBar
 import com.browser.red.presentation.viewmodel.TabsScreenViewModel
@@ -90,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                     onTabsClicked = {
                                         scope.launch {
                                             mainActivityViewModel.captureCurrentTabThumbnail()
-                                            navController.navigate("tabs_screen")
+                                            navController.navigate(Route.Tabs.name)
                                         }
                                     }
                                 )

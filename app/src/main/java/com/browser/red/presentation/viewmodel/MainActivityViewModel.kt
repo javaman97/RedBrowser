@@ -116,7 +116,7 @@ class MainActivityViewModel @Inject constructor(
     var showBottomBar by mutableStateOf(true)
         private set
     var showAddressBar by mutableStateOf(true)
-        private set
+
 
 
     /**
