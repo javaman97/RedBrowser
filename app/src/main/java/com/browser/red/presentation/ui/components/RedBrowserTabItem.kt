@@ -47,7 +47,8 @@ fun RedBrowserTabPreview(){
 fun RedBrowserTabItem(
     tab:RedBrowserTab,
     onClick:()->Unit = {},
-    onRemove:(tab:RedBrowserTab)->Unit = {}
+    closable:Boolean = false,
+    onClose:(tab:RedBrowserTab)->Unit = {},
     ){
     val sizeDp = DpSize(width = 120.dp, height = 150.dp)
     Card (elevation = CardDefaults.cardElevation(8.dp),
@@ -84,17 +85,19 @@ fun RedBrowserTabItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Image(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .align(Alignment.TopEnd)
-                    .clickable { onRemove(tab) },
-                painter = painterResource(id = R.drawable.twotone_highlight_off_24),
-                contentDescription = stringResource(id = R.string.remove_tab),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
-            )
+           if(closable){
+               Image(
+                   modifier = Modifier
+                       .size(32.dp)
+                       .clip(RoundedCornerShape(16.dp))
+                       .background(MaterialTheme.colorScheme.secondary)
+                       .align(Alignment.TopEnd)
+                       .clickable { onClose(tab) },
+                   painter = painterResource(id = R.drawable.twotone_highlight_off_24),
+                   contentDescription = stringResource(id = R.string.remove_tab),
+                   colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
+               )
+           }
         }
     }
 }

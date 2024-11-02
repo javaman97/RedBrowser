@@ -87,7 +87,8 @@ fun TabsScreen(
                     RedBrowserTabItem(
                         tab = tabsScreenViewModel.listTabs()[index],
                         onClick = {onTabSwitched(index)},
-                        onRemove = {tab -> tabsScreenViewModel.closeTab(tab)  }
+                        closable = tabsScreenViewModel.listTabs().size != 1,
+                        onClose = {tab -> tabsScreenViewModel.closeTab(tab)  }
                         )
                 }
             }
