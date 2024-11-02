@@ -78,9 +78,11 @@ class MainActivityViewModel @Inject constructor(
             if (scrollY > oldScrollY) {
                 //scroll down
                showBottomBar = false
+                showAddressBar = false
             } else if (scrollY < oldScrollY) {
                 //scroll up
                 showBottomBar = true
+                showAddressBar = true
             }
         }
     }
@@ -112,6 +114,8 @@ class MainActivityViewModel @Inject constructor(
     var showAddressBarEditable by mutableStateOf(true)
 
     var showBottomBar by mutableStateOf(true)
+        private set
+    var showAddressBar by mutableStateOf(true)
         private set
 
 
@@ -209,7 +213,7 @@ class MainActivityViewModel @Inject constructor(
     /**
      * Observes the WebViewClient data events for the active tab, updating state as needed.
      */
-    private fun observeWebViewClientData() = viewModelScope.launch {
+    private fun observeWebViewClientData() = viewModelScope.launch(Dispatchers.IO) {
         mCurrentTab?.let { tab ->
             observeWebViewClientDataUseCase(tab)?.collect { data ->
                 onPageStarted = data.onPageStarted
@@ -218,8 +222,7 @@ class MainActivityViewModel @Inject constructor(
                     tab.url = it
                     currentUrl = it
                 }
-                canGoBack = canGoBackUseCase(tab)
-                canGoForward = canGoForwardUseCase(tab)
+
             }
         }
     }
@@ -232,6 +235,10 @@ class MainActivityViewModel @Inject constructor(
             observeChromeClientDataUseCase(tab)?.collect { data ->
                 pageProgress = data.progress / 100f
                 pageTitle = data.title.toString()
+                withContext(Dispatchers.Main){
+                    canGoBack = canGoBackUseCase(tab)
+                    canGoForward = canGoForwardUseCase(tab)
+                }
             }
         }
     }

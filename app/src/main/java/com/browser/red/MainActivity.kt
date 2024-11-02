@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,18 +52,38 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize(),
                     bottomBar = {
-                        AnimatedVisibility(
-                            visible = mainActivityViewModel.showBottomBar
+                        Column(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .padding(vertical = 4.dp)
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .padding(vertical = 4.dp)
-                            ) {
-                                LinearProgressBar(
-                                    onPageStarted = mainActivityViewModel.onPageStarted,
-                                    progress =  mainActivityViewModel.pageProgress)
+                            LinearProgressBar(
+                                onPageStarted = mainActivityViewModel.onPageStarted,
+                                progress =  mainActivityViewModel.pageProgress)
+
+                            //AddressBar
+                            AnimatedVisibility(
+                                visible = mainActivityViewModel.showAddressBar,
+                                enter = slideInHorizontally(
+                                    initialOffsetX = { it }
+                                ),
+                                exit = slideOutHorizontally(
+                                    targetOffsetX = { it }
+                                )
+                            ){
                                 AddressBarMain(mainActivityViewModel = mainActivityViewModel)
+                            }
+
+                            //BottomBar
+                            AnimatedVisibility(
+                                visible = mainActivityViewModel.showBottomBar,
+                                enter = slideInHorizontally(
+                                    initialOffsetX = { -it }
+                                ),
+                                exit = slideOutHorizontally(
+                                    targetOffsetX = { -it }
+                                )
+                            ) {
                                 BottomBarMain(
                                     mainActivityViewModel = mainActivityViewModel,
                                     tabsScreenViewModel = tabsScreenViewModel,
@@ -74,6 +96,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
                     }
                 ) { innerPadding ->
                     val modifier = Modifier
