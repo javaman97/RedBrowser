@@ -2,6 +2,7 @@ package com.browser.red.presentation.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
@@ -31,35 +32,43 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.browser.red.R
+import com.browser.red.ui.theme.Typography
+
 @Preview
 @Composable
 fun AddressBarEditable(
-    currentUrl:String = "",
-    onTextChanged:(newText:String)->Unit={},
-    onGoPressed:(text:String)->Unit={},
-    onClearClicked:()->Unit = {},
-    onFocusChanged:(FocusState) -> Unit = {}
-    ){
+    currentUrl: String = "",
+    onTextChanged: (newText: String) -> Unit = {},
+    onGoPressed: (text: String) -> Unit = {},
+    onClearClicked: () -> Unit = {},
+    onFocusChanged: (FocusState) -> Unit = {}
+) {
     val keyboardController = LocalSoftwareKeyboardController.current
     var txtSearch by remember { mutableStateOf(currentUrl) }
     val showClearIcon by remember { mutableStateOf(if (txtSearch.isNotEmpty()) true else false) }
-    Card (elevation = CardDefaults.cardElevation(2.dp),
+    Card(elevation = CardDefaults.cardElevation(2.dp),
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .onFocusChanged { onFocusChanged(it) }
-    ){
+    ) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-            ,
+                .height(48.dp),
             value = txtSearch,
             onValueChange = {
                 txtSearch = it
                 onTextChanged(txtSearch)
             },
+            textStyle = Typography.labelLarge,
             singleLine = true,
-            placeholder = { Text(stringResource(id = R.string.type_any_thing)) },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.type_any_thing),
+                    style = Typography.labelLarge
+                )
+            },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -70,17 +79,17 @@ fun AddressBarEditable(
                     modifier = Modifier
                         .size(28.dp),
                     imageVector = Icons.Default.Search,
-                    contentDescription =  "Search"
+                    contentDescription = "Search"
                 )
             },
             trailingIcon = {
-                if(showClearIcon){
+                if (showClearIcon) {
                     Icon(
                         modifier = Modifier
                             .size(28.dp)
                             .clickable { txtSearch = "" },
                         imageVector = Icons.Default.Close,
-                        contentDescription =  "Search"
+                        contentDescription = "Search"
                     )
                 }
             },
