@@ -1,21 +1,11 @@
 package com.browser.red.presentation.ui.screens
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
-import com.browser.core_browser.domain.model.RedBrowserTab
-import androidx.compose.runtime.key
-import androidx.compose.ui.focus.onFocusChanged
-import com.browser.red.domain.utils.WebUtils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.browser.red.domain.utils.WebUtils
+import com.browser.red.presentation.ui.components.RedBrowserWebView
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -31,19 +21,15 @@ fun HomeScreen(
             }
         }
     } else {
-        AndroidView(
-            factory = { tab.webView },
-            update = { webView ->
-                tab.webView = webView
-            },
-            modifier = Modifier
-                .fillMaxSize()
-                .onFocusChanged {
-                    if(it.hasFocus){
-                        mainActivityViewModel.showAddressBarEditable = false
-                    }
+        RedBrowserWebView(
+            tab = tab,
+            modifier = modifier,
+            onFocusChanged = {
+                if (it.hasFocus) {
+                    mainActivityViewModel.showAddressBarEditable = false
                 }
-                .then(modifier),
-        )
+            })
     }
 }
+
+
