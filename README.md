@@ -4,14 +4,6 @@
 
 An open-source WebView-based browser designed for a secure and efficient browsing experience.
 
-## Features
-
-1. **Secure Browser**: Enjoy a safe browsing experience with robust security measures.
-2. **Ad Blocker**: Block annoying ads to enhance your browsing experience.
-3. **Tracker Blocker**: Protect your privacy by blocking trackers.
-4. **File/Audio/Video Downloader**: Easily download files, audio, and videos.
-5. **Very Small APK Size**: Lightweight application for quick downloads and minimal storage usage.
-
 ## Contributing
 
 This is just the initial commit. We welcome contributions to improve and expand the project.
