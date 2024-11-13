@@ -16,7 +16,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -26,6 +30,7 @@ import com.browser.red.presentation.navigation.NavGraph
 import com.browser.red.presentation.navigation.Route
 import com.browser.red.presentation.ui.components.AddressBarMain
 import com.browser.red.presentation.ui.components.LinearProgressBar
+import com.browser.red.presentation.ui.components.PrivacyAndSecurityBottomSheet
 import com.browser.red.presentation.viewmodel.TabsScreenViewModel
 import com.browser.red.presentation.viewmodel.MainActivityViewModel
 import com.browser.red.ui.theme.RedBrowserTheme
@@ -48,6 +53,7 @@ class MainActivity : ComponentActivity() {
             RedBrowserTheme(darkTheme = false) {
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
+                var showPrivacyAndSecurityBottomSheet by remember { mutableStateOf(false) }
 
                 Scaffold(
                     modifier = Modifier
@@ -74,7 +80,8 @@ class MainActivity : ComponentActivity() {
                             ){
                                 AddressBarMain(
                                     mainActivityViewModel = mainActivityViewModel,
-                                    showEditableBar = mainActivityViewModel.showAddressBarEditable
+                                    showEditableBar = mainActivityViewModel.showAddressBarEditable,
+                                    onConfigurationClicked = { showPrivacyAndSecurityBottomSheet = true}
                                     )
                             }
 
@@ -112,6 +119,10 @@ class MainActivity : ComponentActivity() {
                         tabsScreenViewModel = tabsScreenViewModel
                     )
 
+                    PrivacyAndSecurityBottomSheet(
+                        showBottomSheet = showPrivacyAndSecurityBottomSheet,
+                        onDismissRequest = {showPrivacyAndSecurityBottomSheet = false}
+                        )
                 }
             }
         }

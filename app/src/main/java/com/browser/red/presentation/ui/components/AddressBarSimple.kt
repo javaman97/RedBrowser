@@ -30,6 +30,7 @@ import com.browser.red.ui.theme.Typography
 @Composable
 fun AddressBarSimple(
     title:String = "",
+    onConfigurationClicked:()->Unit = {},
     onAddressClicked:()->Unit = {},
     onRefreshClicked:()->Unit = {}
     ){
@@ -46,7 +47,8 @@ fun AddressBarSimple(
         ) {
             Image(
                 modifier = Modifier
-                    .size(iconSize),
+                    .size(iconSize)
+                    .clickable { onConfigurationClicked() },
                 painter = painterResource(id = R.drawable.controls_alt_svgrepo_com),
                 contentDescription = stringResource(id = R.string.controls_settings),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)

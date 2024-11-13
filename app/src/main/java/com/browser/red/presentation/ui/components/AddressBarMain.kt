@@ -7,7 +7,8 @@ import timber.log.Timber
 @Composable
 fun AddressBarMain(
     mainActivityViewModel: MainActivityViewModel,
-    showEditableBar:Boolean
+    showEditableBar:Boolean,
+    onConfigurationClicked:()->Unit = {}
 ) {
     if(showEditableBar){
         AddressBarEditable(
@@ -23,7 +24,8 @@ fun AddressBarMain(
         AddressBarSimple(
             title = mainActivityViewModel.pageTitle,
             onAddressClicked = { mainActivityViewModel.showAddressBarEditable = true},
-            onRefreshClicked = { mainActivityViewModel.refreshWebPage()}
+            onRefreshClicked = { mainActivityViewModel.refreshWebPage()},
+            onConfigurationClicked = {onConfigurationClicked()}
         )
     }
 }

@@ -9,4 +9,8 @@
     <string name="add_new_tab">Add new tab</string>
     <string name="controls_settings">Controls and settings</string>
     <string name="remove_tab">Remove tab</string>
+    <string name="connection_security_status_secure">Connection is secure</string>
+    <string name="privacy_and_security">Privacy and security</string>
+    <string name="permissions">Permissions</string>
+    <string name="last_visited">Last visited %s</string>
 </resources>
